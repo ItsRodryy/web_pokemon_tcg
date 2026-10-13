@@ -60,7 +60,7 @@ def validar():
         relativa = ruta.relative_to(BASE)
         if relativa.parts[0] in infraestructura or 'plantilla_ai_workspace' in relativa.parts:
             continue
-        if relativa.parts[:2] == ('herramientas', 'comprobacion') and ('node_modules' in relativa.parts or 'perfil_pruebas' in relativa.parts):
+        if relativa.parts[:2] == ('herramientas', 'comprobacion') and ('node_modules' in relativa.parts or any(p.startswith('perfil_') for p in relativa.parts[2:])):
             continue
         comprobar(bool(re.fullmatch(r'[a-z0-9_ñ]+(?:\.[a-z0-9]+)?', ruta.name)), 'Nombre fuera de la convencion: ' + str(ruta.relative_to(BASE)))
         comprobar(ruta.suffix.lower() not in {'.xlsx', '.xls', '.xlsm', '.csv', '.mov', '.mp4', '.heic', '.zip'}, 'Archivo sobrante: ' + str(ruta.relative_to(BASE)))
