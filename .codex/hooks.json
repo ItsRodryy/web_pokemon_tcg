@@ -1,0 +1,18 @@
+{
+    "description":  "Automatización local del proyecto.",
+    "hooks":  {
+                  "SessionEnd":  [
+                                     {
+                                         "hooks":  [
+                                                       {
+                                                           "type":  "command",
+                                                           "command":  "nohup graphify update \"C:/Users/adria/Desktop/cartas_pokemon\" \u003e/dev/null 2\u003e\u00261 \u0026",
+                                                           "timeout":  3,
+                                                           "commandWindows":  "powershell.exe -NoProfile -WindowStyle Hidden -Command \"Start-Process -FilePath \u0027graphify\u0027 -ArgumentList @(\u0027update\u0027,\u0027C:\\Users\\adria\\Desktop\\cartas_pokemon\u0027) -WindowStyle Hidden\"",
+                                                           "statusMessage":  "Programando la actualización del grafo…"
+                                                       }
+                                                   ]
+                                     }
+                                 ]
+              }
+}

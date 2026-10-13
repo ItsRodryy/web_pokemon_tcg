@@ -1,0 +1,17 @@
+Abre catalogo_cartas.html con doble clic, o usa abrir_catalogo.cmd.
+No necesita servidor, cuentas ni conexion a internet.
+
+Busca por nombre o numero y filtra por idioma, tipo, expansion, rareza
+y cartas pendientes. Las copias repetidas se agrupan con su cantidad.
+
+Para incorporar o corregir cartas, edita catalogo_cartas/datos.json,
+guarda su imagen en imagenes_cartas y ejecuta desde la raiz:
+python herramientas/actualizar_catalogo.py
+python herramientas/validar_catalogo.py
+
+Usa minusculas y barrabajas en nombres de archivos y carpetas.
+
+Las nuevas fotos propias se guardan completas en imagenes_cartas.
+El campo encuadre de la ficha indica el recorte que se muestra en la
+cuadricula; al abrir la carta se muestra la fotografia completa.
+No hace falta crear dos imagenes ni modificar el fondo de la foto.

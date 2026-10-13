@@ -1,0 +1,9 @@
+graphify-out/
+herramientas/plantilla_ai_workspace/
+herramientas/comprobacion/node_modules/
+herramientas/comprobacion/perfil_pruebas/
+herramientas/comprobacion/*.png
+__pycache__/
+*.pyc
+.env
+.env.*
