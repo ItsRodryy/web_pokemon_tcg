@@ -15,3 +15,18 @@ Las nuevas fotos propias se guardan completas en imagenes_cartas.
 El campo encuadre de la ficha indica el recorte que se muestra en la
 cuadricula; al abrir la carta se muestra la fotografia completa.
 No hace falta crear dos imagenes ni modificar el fondo de la foto.
+
+Version publicada:
+https://itsrodryy.github.io/web_pokemon_tcg/
+
+Para guardar cambios, abre la version publicada e inicia sesion con Google.
+En Tu cuenta puedes cambiar tu nombre y sincronizar la coleccion inicial.
+Solo el Google verificado de adrianrodry55@gmail.com puede editar cartas.
+El resto puede consultar la coleccion; cada usuario edita su propio nombre.
+Anadir carta permite crear una ficha o actualizar una existente, su cantidad
+total y su fotografia. Ajusta el encuadre con los tres controles de la foto.
+La foto completa se conserva al abrir la carta.
+
+Los cambios de la web se guardan en Supabase, no en datos.json.
+datos.json sigue siendo la copia inicial local; no sobrescribir con ella
+las fichas remotas que el usuario haya editado.

@@ -6,12 +6,12 @@
   <meta name="color-scheme" content="dark">
   <title>rodrytela · cartas</title>
   <link rel="icon" href="catalogo_cartas/logo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="catalogo_cartas/catalogo.css">
+  <link rel="stylesheet" href="catalogo_cartas/catalogo.css?v=20261014_2">
   <script defer src="catalogo_cartas/datos.js"></script>
   <script defer src="catalogo_cartas/configuracion.js"></script>
   <script defer src="catalogo_cartas/supabase.js"></script>
   <script defer src="catalogo_cartas/catalogo.js"></script>
-  <script defer src="catalogo_cartas/cuenta.js"></script>
+  <script defer src="catalogo_cartas/cuenta.js?v=20261014_2"></script>
 </head>
 <body>
   <header class="topbar"><a class="brand" href="catalogo_cartas.html" aria-label="Inicio"><svg class="brand-symbol" aria-hidden="true" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12"/><path d="M4 16h8m8 0h8"/><circle cx="16" cy="16" r="4"/></svg><span id="brand-name">rodrytela</span></a><div class="header-account"><div class="collection-summary" aria-label="Resumen del inventario"><span id="total-distinct">Cargando cartas…</span><span class="summary-divider" aria-hidden="true"></span><span id="total-units">—<small>ejemplares</small></span></div><button type="button" id="account-button" class="secondary-button">Entrar con Google</button></div></header>
@@ -46,7 +46,7 @@
     <form id="card-form" class="stack-form">
       <label>Carta<select id="edit-existing"><option value="">Nueva carta</option></select></label>
       <div class="editor-grid"><label>Pokémon o nombre<input name="nombre" maxlength="120" required></label><label>Idioma<select name="idioma"><option value="español">Español</option><option value="japones">Japonés</option><option value="coreano">Coreano</option></select></label><label>Número<input name="numero" placeholder="147/128" maxlength="40" required></label><label>Código de expansión<input name="codigo" placeholder="30C, PFL, SV11B…" maxlength="40" required></label><label>Expansión<input name="expansion" maxlength="160" required></label><label>Rareza<input name="rareza" maxlength="80" placeholder="Por confirmar"></label><label>Tipo<input name="tipo" maxlength="60" placeholder="Fuego, Agua, Entrenador…"></label><label>Categoría<select name="categoria"><option>Pokémon</option><option>Entrenador</option><option>Energía</option></select></label><label>Variante<input name="variante" maxlength="120" placeholder="normal, holográfica, ilustración…" required></label><label>Cantidad total<input name="cantidad" type="number" min="1" max="9999" step="1" value="1" required></label></div>
-      <label class="check-label"><input name="pendiente" type="checkbox">Identificación o variante por confirmar</label><label>Motivo pendiente<input name="motivo_pendiente" maxlength="500"></label>
+      <label class="check-label"><input name="pendiente" type="checkbox">Identificación o variante por confirmar</label><label>Motivo pendiente<input name="motivo_pendiente" maxlength="500"></label><label class="check-label"><input name="cantidad_provisional" type="checkbox">Cantidad de copias por confirmar</label>
       <label>Fotografía completa<input name="foto" id="card-photo" type="file" accept="image/jpeg,image/png,image/webp"></label><p class="field-help">JPG, PNG o WebP, hasta 15 MB. La foto se conserva completa. Para una carta existente puedes mantener su imagen.</p>
       <div id="crop-controls" hidden><div id="crop-preview" class="crop-preview"><img id="crop-image" alt="Vista previa del encuadre"></div><div class="crop-sliders"><label>Acercar a la carta<input id="crop-zoom" type="range" min="1" max="5" step="0.05" value="1"></label><label>Horizontal<input id="crop-x" type="range" min="0" max="100" value="50"></label><label>Vertical<input id="crop-y" type="range" min="0" max="100" value="50"></label></div><p class="field-help">Así se verá en el catálogo. Al abrirla se mostrará la foto entera.</p></div>
       <label>Notas<textarea name="notas" rows="3" maxlength="3000"></textarea></label>

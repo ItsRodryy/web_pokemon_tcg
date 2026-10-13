@@ -1,0 +1,13 @@
+Pruebas de la interfaz (requiere Node.js 22 o posterior y Chrome en Windows):
+node herramientas/comprobacion/probar_interfaz.cjs
+
+Usa un servicio Supabase simulado y bloquea sus conexiones reales.
+Comprueba perfil, nombre persistente, permisos, formulario, fotos, recorte,
+cantidades, tamano de texto, alineacion del logo y movil.
+
+Pruebas de permisos SQL con PostgreSQL local en memoria:
+npm.cmd install --prefix herramientas/comprobacion --no-save --no-package-lock @electric-sql/pglite
+node herramientas/comprobacion/probar_permisos.cjs
+
+No escriben en el Supabase real ni necesitan contrasenas.
+node_modules y perfil_pruebas son temporales y estan excluidos de Git.

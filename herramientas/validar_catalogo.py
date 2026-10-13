@@ -9,6 +9,7 @@ import re
 import sys
 from collections import Counter
 from pathlib import Path
+from urllib.parse import urlsplit
 
 BASE = Path(__file__).resolve().parents[1]
 
@@ -54,7 +55,7 @@ def validar():
     html = (BASE / 'catalogo_cartas.html').read_text(encoding='utf-8')
     for referencia in re.findall(r'(?:src|href)="([^"]+)"', html):
         if not referencia.startswith(('https:', 'http:', '#')):
-            comprobar((BASE / referencia).is_file(), 'Enlace local ausente: ' + referencia)
+            comprobar((BASE / urlsplit(referencia).path).is_file(), 'Enlace local ausente: ' + referencia)
     for ruta in BASE.rglob('*'):
         relativa = ruta.relative_to(BASE)
         if relativa.parts[0] in infraestructura or 'plantilla_ai_workspace' in relativa.parts:

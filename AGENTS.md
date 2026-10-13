@@ -33,6 +33,7 @@ Autoría: Adrián Rodríguez. Ninguna IA figura como autora ni firma nada.
 - No contratar servicios ni planes de pago. El usuario ya tiene cuenta en Supabase; falta seleccionar y configurar su proyecto y usuario propietario.
 - Las fotos originales del escritorio se pueden leer para incorporarlas cuando el usuario las señale; nunca modificarlas, moverlas ni borrarlas.
 - Intocable sin orden expresa: Fotografías originales del escritorio y cualquier ruta fuera de este proyecto.
+- Excepción expresa: el usuario pidió mantener C:/Users/adria/Desktop/credenciales_web_pokemon_tcg.md con accesos y datos importantes. Es privado y no se incorpora a Git ni a la web.
 - La interfaz sigue `ai_workspace/contexto/estilo.md`.
 - El nombre junto a la Poké Ball es el username editable del perfil de Supabase del usuario conectado, asociado a Google. Sin sesión se muestra rodrytela. Nunca simular persistencia solo en el navegador.
 

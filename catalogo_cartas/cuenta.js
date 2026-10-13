@@ -2,7 +2,8 @@
 (() => {
   const $=id=>document.getElementById(id),config=window.CATALOGO_CONFIG||{};
   const app=window.catalogoApp,initial=window.CATALOGO_DATA||[];
-  const state={client:null,user:null,profile:null,isAdmin:false,busy:false,photo:null,photoUrl:null,crop:null,editing:null,authVersion:0};
+  const state={client:null,user:null,profile:null,isAdmin:false,busy:false,photo:null,photoUrl:null,crop:null,editing:null,authVersion:0,photoVersion:0,signingIn:false};
+  const oauthReturn=new URL(location.href).searchParams.has('code')||location.hash.includes('error=');
   const message=(id,text,error=false)=>{const el=$(id);el.textContent=text;el.dataset.error=String(error);};
   const errorText=e=>e?.code==='23505'?'Esta carta ya existe. Selecciónala arriba para actualizar su cantidad o su foto.':e?.message||'No se pudo completar. Inténtalo de nuevo.';
   const slug=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'pendiente';
@@ -34,7 +35,9 @@
     const version=++state.authVersion;
     const {data,error}=await state.client.auth.getUser();
     if(version!==state.authVersion)return;
-    state.user=error?null:data.user;state.profile=null;state.isAdmin=false;accountView();
+    const next=error?null:data.user,same=!!next && state.user?.id===next.id;
+    state.user=next;if(!same){state.profile=null;state.isAdmin=false;}accountView();
+    if(error && oauthReturn){$('connection-status').hidden=false;$('connection-status').textContent='No se pudo recuperar tu sesión. '+errorText(error)+' Vuelve a pulsar Entrar con Google.';}
     if(!state.user)return;
     try{
       const user=state.user;
@@ -53,12 +56,17 @@
     }catch(e){if(version===state.authVersion)message('profile-status','No se pudo cargar tu perfil. '+errorText(e),true);}
   }
   async function signIn(){
+    if(state.signingIn)return;
     if(!state.client){$('connection-status').hidden=false;$('connection-status').textContent='El acceso con Google todavía se está preparando.';return;}
     if(!['https:','http:'].includes(location.protocol)){$('connection-status').hidden=false;$('connection-status').textContent='Para iniciar sesión abre la versión publicada del catálogo.';return;}
     const redirect=config.redirectUrl||new URL('catalogo_cartas.html',location.href).href;
-    const {error}=await state.client.auth.signInWithOAuth({provider:'google',options:{redirectTo:redirect,queryParams:{prompt:'select_account'}}});
-    if(error){$('connection-status').hidden=false;$('connection-status').textContent='No se pudo entrar con Google. '+errorText(error);}
+    state.signingIn=true;$('account-button').disabled=true;
+    try{
+      const {error}=await state.client.auth.signInWithOAuth({provider:'google',options:{redirectTo:redirect,queryParams:{prompt:'select_account'}}});
+      if(error)throw error;
+    }catch(error){state.signingIn=false;$('account-button').disabled=false;$('connection-status').hidden=false;$('connection-status').textContent='No se pudo entrar con Google. '+errorText(error);}
   }
+  window.addEventListener('pageshow',()=>{state.signingIn=false;$('account-button').disabled=false;});
   $('account-button').addEventListener('click',()=>{
     if(!state.user){signIn();return;}
     $('username').value=state.profile?.username||state.user.user_metadata?.full_name||'';
@@ -92,12 +100,12 @@
     }catch(e){message('profile-status',errorText(e),true);}finally{state.busy=false;$('import-catalogue').disabled=false;}
   });
   const fields=['nombre','idioma','numero','codigo','expansion','rareza','tipo','categoria','variante','cantidad','motivo_pendiente','notas'];
-  function releasePhoto(){if(state.photoUrl)URL.revokeObjectURL(state.photoUrl);state.photo=null;state.photoUrl=null;state.crop=null;$('crop-controls').hidden=true;$('card-photo').value='';$('crop-image').removeAttribute('src');}
+  function releasePhoto(){state.photoVersion++;if(state.photoUrl)URL.revokeObjectURL(state.photoUrl);state.photo=null;state.photoUrl=null;state.crop=null;$('crop-controls').hidden=true;$('card-photo').value='';$('crop-image').removeAttribute('src');}
   function fillEditor(id){
     releasePhoto();$('card-form').reset();state.editing=app.getData().find(c=>c.id===id)||null;
     $('edit-existing').value=state.editing?.id||'';
     $('editor-title').textContent=state.editing?'Actualizar carta':'Añadir carta';
-    if(state.editing){fields.forEach(k=>$('card-form').elements[k].value=state.editing[k]??'');$('card-form').elements.pendiente.checked=!!state.editing.pendiente;}
+    if(state.editing){fields.forEach(k=>$('card-form').elements[k].value=state.editing[k]??'');$('card-form').elements.pendiente.checked=!!state.editing.pendiente;$('card-form').elements.cantidad_provisional.checked=!!state.editing.cantidad_provisional;}
     else{$('card-form').elements.variante.value='normal';$('card-form').elements.cantidad.value='1';}
     message('editor-status','');
   }
@@ -122,8 +130,8 @@
     const file=$('card-photo').files[0];if(!file){releasePhoto();return;}
     releasePhoto();
     if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>15*1024*1024){message('editor-status','Usa JPG, PNG o WebP de hasta 15 MB. Para HEIC, exporta la foto como JPEG.',true);return;}
-    const url=URL.createObjectURL(file),img=new Image();img.src=url;
-    try{await img.decode();state.photo={file,width:img.naturalWidth,height:img.naturalHeight};state.photoUrl=url;$('crop-image').src=url;$('crop-controls').hidden=false;$('crop-zoom').value=1;$('crop-x').value=50;$('crop-y').value=50;updateCrop();message('editor-status','');}
+    const url=URL.createObjectURL(file),img=new Image(),version=state.photoVersion;img.src=url;
+    try{await img.decode();if(version!==state.photoVersion){URL.revokeObjectURL(url);return;}state.photo={file,width:img.naturalWidth,height:img.naturalHeight};state.photoUrl=url;$('crop-image').src=url;$('crop-controls').hidden=false;$('crop-zoom').value=1;$('crop-x').value=50;$('crop-y').value=50;updateCrop();message('editor-status','');}
     catch(_){URL.revokeObjectURL(url);message('editor-status','No se pudo abrir la fotografía.',true);}
   });
   $('card-form').addEventListener('submit',async event=>{
@@ -134,7 +142,7 @@
     if(!state.editing && !state.photo){message('editor-status','Añade una fotografía de la nueva carta.',true);return;}
     const same=app.getData().find(c=>c.id!==state.editing?.id && ['idioma','codigo','numero','variante'].every(k=>String(c[k]||'').trim().toLowerCase()===values[k].toLowerCase()));
     if(same){message('editor-status','Esta carta ya tiene ficha. Selecciónala arriba para cambiar su cantidad o fotografía.',true);return;}
-    const card={...(state.editing||{}),...values,id:state.editing?.id||'c_'+crypto.randomUUID().replaceAll('-','_'),cantidad:quantity,pendiente:form.elements.pendiente.checked,cantidad_provisional:state.editing?.cantidad_provisional||false};
+    const card={...(state.editing||{}),...values,id:state.editing?.id||'c_'+crypto.randomUUID().replaceAll('-','_'),cantidad:quantity,pendiente:form.elements.pendiente.checked,cantidad_provisional:form.elements.cantidad_provisional.checked};
     card.ids_unidades=state.editing?.ids_unidades||[card.id];card.rareza ||= 'Por confirmar';card.tipo ||= 'Por confirmar';
     if(!card.pendiente)card.motivo_pendiente='';else card.motivo_pendiente ||= 'Identificación o variante por confirmar';
     card.estado ||= 'Frontal fotografiado; reverso no disponible; estado global pendiente.';
@@ -150,7 +158,8 @@
       if(!validImage(card.imagen))throw Error('La fotografía no tiene una dirección válida.');
       const {error}=await state.client.from('tcg_cards').upsert({id:card.id,datos:card},{onConflict:'id'});if(error)throw error;
       uploaded=null;
-      await loadCards();$('editor-dialog').close();releasePhoto();
+      app.replaceRemote([...app.getData(),card]);$('editor-dialog').close();releasePhoto();
+      try{await loadCards();}catch(_){$('connection-status').hidden=false;$('connection-status').textContent='Carta guardada. No se pudo recargar el resto de la colección; puedes actualizar la página más tarde.';}
     }catch(e){
       if(uploaded){const removed=await state.client.storage.from(config.bucket).remove([uploaded]);if(removed.error)message('editor-status','No se guardó la ficha; la foto subida necesita revisarse. '+errorText(e),true);else message('editor-status',errorText(e),true);}
       else message('editor-status',errorText(e),true);
@@ -164,6 +173,10 @@
   if(config.supabaseUrl && config.supabaseKey && window.supabase){
     state.client=window.supabase.createClient(config.supabaseUrl,config.supabaseKey,{auth:{flowType:'pkce',detectSessionInUrl:true,persistSession:true,autoRefreshToken:true}});
     state.client.auth.onAuthStateChange(()=>{setTimeout(()=>signedUser().catch(()=>{}),0);});
+    state.client.auth.initialize().then(({error})=>{
+      if(error){$('connection-status').hidden=false;$('connection-status').textContent='No se pudo completar el inicio de sesión. '+errorText(error)+' Vuelve a pulsar Entrar con Google.';}
+      else signedUser().catch(()=>{});
+    });
     loadCards().catch(()=>{$('connection-status').hidden=false;$('connection-status').textContent='No se pudo actualizar la colección. Mostrando las cartas guardadas.';});
   }
 })();
