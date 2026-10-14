@@ -9,7 +9,7 @@ Nombre web_pokemon_tcg; autor Adrián Rodríguez. Estado en ESTADO.md.
 - Vistas: cuadrícula (5 columnas en escritorio, 3 en móvil) y lista de una carta por fila; se recuerda en `localStorage` (`tcg_vista`).
 - Colección principal = datos.json/js (177 fichas, 178 ejemplares) más `tcg_cards` en Supabase, editable solo por el propietario. Colecciones de otras personas = filas de `tcg_user_cards` (idioma, catalogo_id, cantidad, tipo, categoría) que se muestran con nombre, expansión e imagen del índice; solo lectura salvo la propia.
 - Imágenes: 156 escaneos originales (TCGdex, pokemon-card.com y Daldagury; los coreanos llevan la marca de agua oficial) con esquinas redondeadas por CSS, y 21 fotos propias (15 nuevas y 6 anteriores) intactas. Las colecciones ajenas enlazan los escaneos desde TCGdex (`…/low|high.webp`) o Daldagury (`_medium.webp`) según la referencia `i` del índice; sin imagen, marcador neutro.
-- Sin subidas de usuarios: ni fotos de cartas ni de perfil. Avatares: ocho PNG blancos de 256 px sobre fondo transparente en `catalogo_cartas/avatares/` (a1–a6 de IconBaandar en Flaticon, con atribución obligatoria en el pie y en THIRD_PARTY_NOTICES; a7 y a8, dibujos propios en el mismo estilo; sin nombres visibles).
+- Sin subidas de usuarios: ni fotos de cartas ni de perfil. Avatares: ocho PNG blancos de 256 px sobre fondo transparente en `catalogo_cartas/avatares/` (a1–a6 de iconos descargados por el usuario, sin créditos por decisión suya; a7 y a8, dibujos propios en el mismo estilo; sin nombres visibles).
 
 ## Datos y herramientas
 
