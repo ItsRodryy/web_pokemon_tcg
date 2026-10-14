@@ -35,10 +35,25 @@ CAMPOS_CARTA = ('id', 'numero', 'nombre')
 OPCIONALES_CARTA = ('numero_completo', 'rareza')
 
 
+PREFIJO_TCGDEX = 'https://assets.tcgdex.net/'
+
+
+def referencia_imagen(carta):
+    """Referencia compacta a la imagen: 'idioma/serie/set/numero' de TCGdex o 'd<id>' de Daldagury."""
+    base = carta.get('imagen') or ''
+    if not carta['id'].startswith('dalda:') and base.startswith(PREFIJO_TCGDEX):
+        return base[len(PREFIJO_TCGDEX):]
+    identificador = carta['id'].split(':')[1] if carta['id'].startswith('dalda:') else carta.get('dalda_id')
+    return 'd' + str(identificador) if identificador else ''
+
+
 def datos_web(datos):
-    """Version reducida para el navegador: identidad, numero, nombre y rareza."""
+    """Version reducida para el navegador: identidad, numero, nombre, rareza e imagen."""
     def reducir(item, campos, opcionales):
-        return {**{k: item.get(k, '') for k in campos}, **{k: item[k] for k in opcionales if item.get(k)}}
+        reducido = {**{k: item.get(k, '') for k in campos}, **{k: item[k] for k in opcionales if item.get(k)}}
+        if 'numero' in campos and referencia_imagen(item):
+            reducido['i'] = referencia_imagen(item)
+        return reducido
     return {
         'actualizado': datos['actualizado'], 'fuentes': datos['fuentes'],
         'expansiones': [

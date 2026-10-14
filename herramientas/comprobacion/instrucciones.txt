@@ -5,7 +5,10 @@ Usa un servicio Supabase simulado y bloquea sus conexiones reales.
 Comprueba perfil, nombre persistente, permisos, formulario, fotos, recorte,
 cantidades, tamano de texto, alineacion del logo y movil.
 
-Pruebas de permisos SQL con PostgreSQL local en memoria:
+Pruebas de Descubrir y colecciones de otras personas (Supabase simulado):
+node herramientas/comprobacion/probar_colecciones.cjs
+
+Pruebas de permisos SQL con PostgreSQL local en memoria (incluye configurar_supabase_v2.sql):
 npm.cmd install --prefix herramientas/comprobacion --no-save --no-package-lock @electric-sql/pglite
 node herramientas/comprobacion/probar_permisos.cjs
 

@@ -3,9 +3,10 @@ const root=path.resolve(__dirname,'../..');
 const server=http.createServer((req,res)=>{const p=path.resolve(root,'.'+new URL(req.url,'http://localhost').pathname);if(!p.startsWith(root+path.sep)||!fs.existsSync(p)){res.writeHead(404).end();return;}const type={'.html':'text/html','.js':'text/javascript','.css':'text/css','.jpg':'image/jpeg','.svg':'image/svg+xml'}[path.extname(p)]||'application/octet-stream';res.setHeader('Content-Type',type);fs.createReadStream(p).pipe(res);});
 server.listen(0,'127.0.0.1',()=>start(server.address().port));
 function start(port){
+ fs.rmSync(path.join(__dirname,'perfil_oauth'),{recursive:true,force:true}); // Perfil limpio en cada ejecucion.
  const child=spawn('C:/Program Files/Google/Chrome/Application/chrome.exe',['--headless=new','--remote-debugging-port=0','--no-first-run','--disable-background-networking','--user-data-dir='+path.join(__dirname,'perfil_oauth'),'about:blank'],{windowsHide:true,stdio:['ignore','ignore','pipe']});
  let ws,n=0,stderr='',started=false;const calls=new Map(),errors=[];
- const timer=setTimeout(()=>{child.kill();server.close();process.exitCode=1;},40000);
+ const timer=setTimeout(()=>{child.kill();server.close();process.exitCode=1;},70000);
  async function run(url){
   ws=new WebSocket(url);await new Promise(r=>ws.onopen=r);
   ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id){const c=calls.get(m.id);calls.delete(m.id);m.error?c.reject(Error(JSON.stringify(m.error))):c.resolve(m.result);}if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text);};
@@ -43,8 +44,16 @@ function start(port){
    await evaluate(`localStorage.removeItem('tcg_oauth_fallo_red');`);
    await cmd('Page.navigate',{url:`http://127.0.0.1:${port}/catalogo_cartas.html`},sid);
    await wait('window.tcgAccount && document.getElementById("account-button").textContent==="Entrar con Google" && document.getElementById("header-sign-out").hidden');
+   // El servidor no responde nunca al cerrar sesion: sale en menos de unos segundos y no se queda atascado.
+   await cmd('Page.navigate',{url:`http://127.0.0.1:${port}/index.html?code=prueba_oauth_cuelga`},sid);
+   await wait('window.tcgAccount?.isAdmin');
+   await evaluate(`const d=document.getElementById('account-diagnostic').textContent;if(!d.includes('adrianrodry55@gmail.com')||!d.includes('Administrador: s'))throw Error('Diagnostico de permisos: '+d);`);
+   await evaluate(`localStorage.setItem('tcg_oauth_cuelga','si');window.__t0=Date.now();document.getElementById('header-sign-out').click();`);
+   await wait('!localStorage.getItem("sb-jrdgqdczplvehzzyhgqx-auth-token")');
+   await wait('window.tcgAccount && !window.tcgAccount.user && document.getElementById("account-button").textContent==="Entrar con Google" && !document.getElementById("header-sign-out").disabled');
+   await evaluate(`localStorage.removeItem('tcg_oauth_cuelga');`);
    if(errors.length)throw Error(errors.join(';'));
-   console.log('SDK Supabase real: PKCE, sesion persistente, salida directa, salida con error de usuario/servicio/red y recarga sin sesion correctos.');
+   console.log('SDK Supabase real: PKCE, sesion persistente, salida directa, salida con error de usuario/servicio/red, servidor mudo y recarga sin sesion correctos.');
   }finally{await cmd('Browser.close').catch(()=>{});ws.close();clearTimeout(timer);server.close();}
  }
  child.stderr.on('data',b=>{stderr+=b;const m=stderr.match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m&&!started){started=true;run(m[1]).catch(e=>{console.error(e.message);process.exitCode=1;clearTimeout(timer);child.kill();server.close();});}});

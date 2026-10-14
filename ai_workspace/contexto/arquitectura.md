@@ -1,16 +1,35 @@
 # Arquitectura actual
 
-Raíz C:/Users/adria/Desktop/cartas_pokemon. Nombre web_pokemon_tcg; autor Adrián Rodríguez. Estado en ESTADO.md.
+Nombre web_pokemon_tcg; autor Adrián Rodríguez. Estado en ESTADO.md.
 
-- HTML/CSS/JavaScript sin framework. catalogo_cartas.html carga, con parámetro de versión `?v=`, datos, configuración pública, SDK Supabase local, catálogo, registro y cuenta. Al cambiar un recurso, subir la versión en el HTML (y la de referencias.js en registro.js). index.html redirige conservando el retorno OAuth.
-- datos.json/js: 177 fichas, 178 ejemplares provisionales. actualizar_catalogo.py sincroniza JS; validar_catalogo.py comprueba estructura, imágenes, nombres, vocabulario de tipos, un nombre por expansión y que referencias.js derive de referencias.json.
-- Tipos: vocabulario de TCGdex en español (Agua, Dragón, Fuego, Hada, Incolora, Lucha, Metálica, Oscura, Planta, Psíquico, Rayo), más Entrenador, Energía y Por confirmar. Rareza: la de la fuente; la interfaz traduce valores en inglés y el filtro agrupa por etiqueta.
-- imagenes_cartas: 177 archivos. 156 escaneos originales (TCGdex, pokemon-card.com y Daldagury; los coreanos llevan la marca de agua oficial «Pokémon Card Game»), 15 fotos propias protegidas y 6 referencias provisionales tachadas. El encuadre afecta solo a la cuadrícula; el detalle muestra la imagen completa.
-- cuenta.js: Google PKCE, sesión, nombre en tcg_profiles, edición del administrador, importación inicial y fotos. Cerrar sesión siempre está disponible (cabecera y Tu cuenta), aunque haya otra operación en curso; si el servicio o la red fallan, borra solo las claves de autenticación de este proyecto y recarga.
-- tcg_cards remoto se combina por id con los datos iniciales: se conservan cantidad y notas remotas; para imágenes locales iniciales manda la metadata del snapshot; fotos HTTPS de Supabase se mantienen; tipos antiguos se normalizan al mostrarlos.
-- registro.js carga referencias.js (4,2 MB, versión reducida) solo al abrir el editor. Solo registra cartas existentes en el índice; consulta TCGdex en vivo para categoría, tipo y rareza, y si no hay datos pide elegir categoría y tipo. Al editar una ficha existente solo cambian cantidad, foto y notas. La restricción de identidad está en el formulario; RLS reserva la escritura al propietario.
-- Referencias: actualizar_referencias.py (TCGdex y PokeAPI) y completar_referencias.py (Daldagury, repetible) escriben referencias.json completo y referencias.js reducido; `--solo-web` regenera el JS sin descargas. Lista cerrada de campos, sin precios. Hay expansiones sin cartas en las fuentes: el alta queda bloqueada en ellas.
-- configurar_supabase.sql (ya aplicado): perfiles privados por uid, cartas públicas, escritura del Google verificado administrador, bucket público con escritura limitada al prefijo uid del administrador.
-- Pruebas en herramientas/comprobacion: interfaz y OAuth con Supabase simulado o SDK real con transporte falso; permisos con PGlite. No sustituyen la comprobación con la cuenta real.
-- Publicado en https://itsrodryy.github.io/web_pokemon_tcg/ (versión de HEAD 96d0d2c). Los cambios posteriores están locales hasta que el usuario autorice cada operación Git/GitHub.
-- Graphify: .graphifyignore excluye el SDK minificado, índices generados e imágenes.
+## Web (HTML, CSS y JavaScript sin framework)
+
+- catalogo_cartas.html carga, con `?v=` (subir al cambiar un recurso), datos, configuración pública, SDK de Supabase local y los módulos: `dialogos.js` (cierres con aviso de cambios), `catalogo.js` (filtros, cuadrícula/lista, detalle), `registro.js` (selector de cartas del índice), `cuenta.js` (sesión, perfil, cuenta), `editor.js` (alta y edición) y `coleccion.js` (colección propia, Descubrir y colecciones ajenas). index.html redirige conservando el retorno OAuth y `?u=`.
+- Un solo diálogo de trabajo (`#detail-dialog`): detalle a la izquierda y editor a la derecha (apilados por debajo de 1100 px). La X, Esc y el clic fuera pasan por `tcgDialogos.request`: con cambios sin guardar aparece «Seguir editando · Descartar cambios · Guardar».
+- Vistas: cuadrícula (5 columnas en escritorio, 3 en móvil) y lista de una carta por fila; se recuerda en `localStorage` (`tcg_vista`).
+- Colección principal = datos.json/js (177 fichas, 178 ejemplares) más `tcg_cards` en Supabase, editable solo por el propietario. Colecciones de otras personas = filas de `tcg_user_cards` (idioma, catalogo_id, cantidad, tipo, categoría) que se muestran con nombre, expansión e imagen del índice; solo lectura salvo la propia.
+- Imágenes: 156 escaneos originales (TCGdex, pokemon-card.com y Daldagury; los coreanos llevan la marca de agua oficial) con esquinas redondeadas por CSS, y 21 fotos propias (15 nuevas y 6 anteriores) intactas. Las colecciones ajenas enlazan los escaneos desde TCGdex (`…/low|high.webp`) o Daldagury (`_medium.webp`) según la referencia `i` del índice; sin imagen, marcador neutro.
+- Sin subidas de usuarios: ni fotos de cartas ni de perfil. Avatares: ocho SVG propios en `catalogo_cartas/avatares/` (a1 a8).
+
+## Datos y herramientas
+
+- referencias.json (completo) y referencias.js (reducido, 4,9 MB; incluye la referencia de imagen `i`) se generan con actualizar_referencias.py y completar_referencias.py; `--solo-web` regenera el JS sin descargas. Sin precios.
+- validar_catalogo.py comprueba datos, imágenes, avatares, licencias, nombres, vocabulario de tipos (TCGdex en español) y que referencias.js derive del JSON.
+- Tipos: Agua, Dragón, Fuego, Hada, Incolora, Lucha, Metálica, Oscura, Planta, Psíquico, Rayo, Entrenador, Energía.
+
+## Supabase (proyecto exclusivo) y Google
+
+- configurar_supabase.sql (aplicado) y configurar_supabase_v2.sql (pendiente de aplicar por el usuario). Ambos repetibles.
+- v2: `tcg_profiles` con avatar, visible y oculto (solo el administrador cambia `oculto`); `tcg_user_cards` con comprobaciones de formato, cantidad 1–9999 y límite de 500 cartas; funciones `tcg_descubrir`, `tcg_perfil_publico`, `tcg_ocultar` y `tcg_borrar_mis_datos`. Lectura pública solo de perfiles visibles y no ocultos.
+- Si v2 no está aplicado, el cliente oculta Descubrir y usa solo el nombre del perfil.
+- Los nuevos usuarios reciben el nombre `Entrenador####` y se abre Tu cuenta para elegir nombre y avatar. Se almacena el correo de Google en Supabase (no se muestra en la web).
+- Para abrir el acceso a cualquiera hay que publicar la app en Google Cloud (Google Auth Platform › Audience › Publish app); la hace el usuario.
+- Cierre de sesión: máximo 3 s esperando al servicio; después sale en local, borra las claves de este proyecto y recarga.
+
+## Pruebas (todas simuladas)
+
+herramientas/comprobacion: probar_interfaz, probar_oauth (SDK real con transporte falso), probar_colecciones (Descubrir y colecciones, con ayuda_navegador.cjs) y probar_permisos (PGlite con ambos SQL). Los perfiles de Chrome son temporales y están ignorados por Git.
+
+## Publicación y licencia
+
+Pages en https://itsrodryy.github.io/web_pokemon_tcg/. Git en solo lectura: cada escritura requiere permiso expreso. LICENSE (MIT, fotos propias reservadas), THIRD_PARTY_NOTICES y pie de página con créditos, marcas y privacidad. Daldagury es un servicio de aficionados: su uso es no comercial; conviene pedirles permiso.

@@ -6,46 +6,48 @@
   <meta name="color-scheme" content="dark">
   <title>rodrytela · cartas</title>
   <link rel="icon" href="catalogo_cartas/logo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="catalogo_cartas/catalogo.css?v=20261014_4">
-  <link rel="stylesheet" href="catalogo_cartas/controles.css?v=20261014_4">
-  <script defer src="catalogo_cartas/datos.js?v=20261014_4"></script>
-  <script defer src="catalogo_cartas/configuracion.js?v=20261014_4"></script>
+  <link rel="stylesheet" href="catalogo_cartas/catalogo.css?v=20261014_5">
+  <link rel="stylesheet" href="catalogo_cartas/controles.css?v=20261014_5">
+  <script defer src="catalogo_cartas/datos.js?v=20261014_5"></script>
+  <script defer src="catalogo_cartas/configuracion.js?v=20261014_5"></script>
   <script defer src="catalogo_cartas/supabase.js"></script>
-  <script defer src="catalogo_cartas/catalogo.js?v=20261014_4"></script>
-  <script defer src="catalogo_cartas/registro.js?v=20261014_4"></script>
-  <script defer src="catalogo_cartas/cuenta.js?v=20261014_4"></script>
+  <script defer src="catalogo_cartas/dialogos.js?v=20261014_5"></script>
+  <script defer src="catalogo_cartas/catalogo.js?v=20261014_5"></script>
+  <script defer src="catalogo_cartas/registro.js?v=20261014_5"></script>
+  <script defer src="catalogo_cartas/cuenta.js?v=20261014_5"></script>
+  <script defer src="catalogo_cartas/editor.js?v=20261014_5"></script>
+  <script defer src="catalogo_cartas/coleccion.js?v=20261014_5"></script>
 </head>
 <body>
-  <header class="topbar"><a class="brand" href="catalogo_cartas.html" aria-label="Inicio"><svg class="brand-symbol" aria-hidden="true" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12"/><path d="M4 16h8m8 0h8"/><circle cx="16" cy="16" r="4"/></svg><span id="brand-name">rodrytela</span></a><div class="header-account"><div class="collection-summary" aria-label="Resumen del inventario"><span id="total-distinct">Cargando cartas…</span><span class="summary-divider" aria-hidden="true"></span><span id="total-units">—<small>ejemplares</small></span></div><div class="account-controls"><button type="button" id="account-button" class="secondary-button">Entrar con Google</button><button type="button" id="header-sign-out" class="text-button" hidden>Cerrar sesión</button></div></div></header>
+  <header class="topbar"><a class="brand" href="catalogo_cartas.html" aria-label="Inicio"><svg class="brand-symbol" aria-hidden="true" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12"/><path d="M4 16h8m8 0h8"/><circle cx="16" cy="16" r="4"/></svg><span id="brand-name">rodrytela</span></a><div class="header-account"><div class="collection-summary" aria-label="Resumen del inventario"><span id="total-distinct">Cargando cartas…</span><span class="summary-divider" aria-hidden="true"></span><span id="total-units">—<small>ejemplares</small></span></div><div class="account-controls"><button type="button" id="discover-button" class="secondary-button">Descubrir</button><button type="button" id="account-button" class="secondary-button">Entrar con Google</button><button type="button" id="header-sign-out" class="text-button" hidden>Cerrar sesión</button></div></div></header>
   <main>
     <section class="catalogue" aria-label="Catálogo de cartas">
       <div class="catalogue-heading"><h1>Cartas <span id="result-count" aria-live="polite"></span></h1><div class="catalogue-actions"><button type="button" class="secondary-button" id="add-card" hidden>Añadir carta <span aria-hidden="true">+</span></button><button class="text-button" id="reset" type="button">Restablecer filtros <span aria-hidden="true">↺</span></button></div></div>
       <p id="connection-status" class="connection-status" role="status" hidden></p>
+      <div id="collection-bar" class="collection-bar" hidden></div>
       <div class="controls">
         <div class="search-sort"><label class="search-box"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 5 5"></path></svg><input id="search" type="search" placeholder="Buscar Pokémon, número o expansión…" aria-label="Buscar cartas" autocomplete="off"><kbd aria-hidden="true">/</kbd></label><label class="sort-control"><span>Ordenar por</span><select id="sort" aria-label="Ordenar cartas"><option value="name_asc">Nombre · A a Z</option><option value="name_desc">Nombre · Z a A</option><option value="type">Tipo</option><option value="expansion">Expansión</option><option value="rarity">Rareza</option><option value="quantity">Cantidad · mayor a menor</option><option value="number">Número de carta</option></select></label></div>
         <div class="languages" role="group" aria-label="Filtrar por idioma"><button data-language="" class="language active" aria-pressed="true">Todos los idiomas <span></span></button><button data-language="español" class="language" aria-pressed="false"><span class="language-mark es">ES</span> Español <span class="language-count"></span></button><button data-language="japones" class="language" aria-pressed="false"><span class="language-mark jp">JP</span> Japonés <span class="language-count"></span></button><button data-language="coreano" class="language" aria-pressed="false"><span class="language-mark kr">KR</span> Coreano <span class="language-count"></span></button></div>
         <div class="filter-row"><label>Tipo<select id="type"><option value="">Todos los tipos</option></select></label><label>Expansión<select id="expansion"><option value="">Todas las expansiones</option></select></label><label>Rareza<select id="rarity"><option value="">Todas las rarezas</option></select></label><label>Estado<select id="pending"><option value="">Todas las cartas</option><option value="identity">Identificación o variante pendiente</option><option value="quantity">Cantidad por confirmar</option></select></label></div>
       </div>
-      <div class="results-meta"><span id="visible-description">Preparando tu colección…</span><span>Abre una carta para ver sus detalles.</span></div>
+      <div class="results-meta"><span id="visible-description">Preparando tu colección…</span><div class="results-tools"><span class="view-hint">Abre una carta para ver sus detalles.</span><div class="view-switch" role="group" aria-label="Forma de mostrar las cartas"><button type="button" data-view="grid" aria-pressed="true" aria-label="Cuadrícula" title="Cuadrícula"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg></button><button type="button" data-view="list" aria-pressed="false" aria-label="Lista, una carta por fila" title="Lista, una carta por fila"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="6" rx="1.5"/><rect x="3.5" y="13.5" width="17" height="6" rx="1.5"/></svg></button></div></div></div>
       <div id="cards" class="cards" aria-label="Cartas de la colección"></div>
       <div id="empty" class="empty" hidden><span aria-hidden="true">⌕</span><h3>No hay cartas con esos filtros</h3><p>Prueba otro nombre o restablece los filtros.</p><button class="primary-button" id="empty-reset">Ver todas las cartas</button></div>
       <noscript>Activa JavaScript para ver las cartas y utilizar los filtros.</noscript>
     </section>
-    <footer><p>Copias agrupadas por idioma, edición y variante. Cantidades provisionales.</p><button class="text-button" id="about-button">Sobre los datos</button></footer>
+  <footer>
+      <p>Copias agrupadas por idioma, edición y variante. Cantidades provisionales.</p>
+      <nav class="footer-links" aria-label="Información legal"><button class="text-button" id="about-button">Sobre los datos</button><button class="text-button" id="legal-button">Licencias y créditos</button><button class="text-button" id="privacy-button">Privacidad</button></nav>
+      <p class="footer-legal">© 2026 Adrián Rodríguez. Código con licencia MIT; las fotos propias tienen todos los derechos reservados. Proyecto de aficionado, no oficial y sin ánimo de lucro: Pokémon y sus nombres y personajes son marcas de Nintendo, Creatures Inc. y GAME FREAK inc.; las imágenes de cartas pertenecen a The Pokémon Company.</p>
+    </footer>
   </main>
-  <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-title"><button class="close-button" id="close-detail" aria-label="Cerrar detalle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button><div id="detail-content"></div></dialog>
-  <dialog id="account-dialog" class="account-dialog" aria-labelledby="account-title">
-    <button class="close-button" data-close="account-dialog" aria-label="Cerrar cuenta"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
-    <p class="eyebrow">TU CUENTA</p><h2 id="account-title">Tu nombre, a tu manera.</h2>
-    <p id="account-email" class="muted"></p>
-    <form id="profile-form" class="stack-form"><label>Nombre de usuario<input name="username" id="username" minlength="1" maxlength="40" required autocomplete="nickname"></label><p class="field-help">Aparece junto a la Poké Ball. Se guarda en tu cuenta y puedes cambiarlo cuando quieras.</p><button class="primary-button" type="submit">Guardar nombre</button></form>
-    <p id="profile-status" class="form-status" role="status"></p>
-    <div class="account-tools"><button type="button" class="text-button" id="import-catalogue" hidden>Sincronizar las 177 cartas iniciales</button><button type="button" class="text-button" id="sign-out">Cerrar sesión</button></div>
-  </dialog>
-  <dialog id="editor-dialog" class="editor-dialog" aria-labelledby="editor-title">
-    <button class="close-button" data-close="editor-dialog" aria-label="Cerrar editor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
-    <p class="eyebrow">TU INVENTARIO</p><h2 id="editor-title">Añadir carta</h2>
-    <form id="card-form" class="stack-form">
+  <dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-title">
+    <button class="close-button" id="close-detail" data-close="detail-dialog" aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <div id="work-layout" class="work-layout">
+      <section id="detail-pane" class="work-pane"><div id="detail-content"></div></section>
+      <section id="editor-pane" class="work-pane editor-pane" aria-labelledby="editor-title" hidden>
+        <p class="eyebrow" id="editor-eyebrow">TU INVENTARIO</p><h2 id="editor-title">Añadir carta</h2>
+        <form id="card-form" class="stack-form">
       <label>Carta<select id="edit-existing"><option value="">Nueva carta</option></select></label>
       <div class="editor-grid">
         <label>Idioma<select name="idioma" id="card-language"><option value="español">Español</option><option value="japones">Japonés</option><option value="coreano">Coreano</option></select></label>
@@ -63,9 +65,63 @@
       <div id="crop-controls" hidden><div id="crop-preview" class="crop-preview"><img id="crop-image" alt="Vista previa del encuadre"></div><div class="crop-sliders"><label>Acercar a la carta<input id="crop-zoom" type="range" min="1" max="5" step="0.05" value="1"></label><label>Horizontal<input id="crop-x" type="range" min="0" max="100" value="50"></label><label>Vertical<input id="crop-y" type="range" min="0" max="100" value="50"></label></div><p class="field-help">Así se verá en el catálogo. Al abrirla se mostrará la foto entera.</p></div>
       <label>Notas<textarea name="notas" rows="3" maxlength="3000"></textarea></label>
       <p class="field-help">Al editar, indica la cantidad total de copias. Cambiar una foto no añade ejemplares.</p>
-      <p id="editor-status" class="form-status" role="status"></p><button class="primary-button" type="submit" id="save-card">Guardar carta</button>
+      <p id="editor-status" class="form-status" role="status"></p><div class="editor-actions"><button class="primary-button" type="submit" id="save-card">Guardar carta</button><button type="button" class="text-button danger" id="remove-card" hidden>Quitar de mi colección</button></div>
     </form>
+      </section>
+    </div>
   </dialog>
-  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><button class="close-button" id="close-about" aria-label="Cerrar información"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button><p class="eyebrow">INVENTARIO</p><h2 id="about-title">Sobre las cartas</h2><p>Una ficha por carta, idioma, edición y variante. Los recuentos son provisionales: dos pares de tomas y siete Pikachu fotografiados juntos requieren confirmar si muestran copias adicionales.</p><p>Las dudas de identificación se conservan en las fichas y en el filtro «Estado». Las fotografías frontales no permiten certificar el estado global del ejemplar.</p><p>Las fotos propias aparecen encuadradas en la cuadrícula y completas al abrir la carta. Las demás cartas usan escaneos originales de su idioma y edición; si aún no existe uno exacto, se muestra una referencia provisional tachada con el aviso «Falta la foto de esta edición».</p></dialog>
+  <dialog id="account-dialog" class="account-dialog" aria-labelledby="account-title">
+    <button class="close-button" data-close="account-dialog" aria-label="Cerrar cuenta"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <p class="eyebrow">TU CUENTA</p><h2 id="account-title">Tu perfil</h2>
+    <p id="account-email" class="muted"></p>
+    <form id="profile-form" class="stack-form">
+      <label>Nombre de usuario<input name="username" id="username" minlength="1" maxlength="40" required autocomplete="nickname"></label>
+      <p class="field-help">Aparece junto a la Poké Ball y en Descubrir. Se guarda en tu cuenta y puedes cambiarlo cuando quieras.</p>
+      <fieldset class="avatar-picker solo-v2"><legend>Foto de perfil</legend><div id="avatar-options" class="avatar-options" role="radiogroup" aria-label="Elige tu foto de perfil"></div></fieldset>
+      <label class="check-label solo-v2"><input type="checkbox" id="profile-visible" checked> Aparecer en Descubrir</label>
+      <p class="field-help solo-v2">Si lo desactivas, nadie podrá ver tu colección desde Descubrir. Solo aparecerás si has añadido cartas.</p>
+      <button class="primary-button" type="submit">Guardar perfil</button>
+    </form>
+    <p id="profile-status" class="form-status" role="status"></p>
+    <p id="account-diagnostic" class="field-help"></p>
+    <div class="account-tools"><button type="button" class="text-button" id="import-catalogue" hidden>Sincronizar las 177 cartas iniciales</button><button type="button" class="text-button" id="sign-out">Cerrar sesión</button><button type="button" class="text-button danger" id="delete-data">Borrar mis datos</button></div>
+  </dialog>
+  <dialog id="discover-dialog" class="discover-dialog" aria-labelledby="discover-title">
+    <button class="close-button" data-close="discover-dialog" aria-label="Cerrar Descubrir"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <p class="eyebrow">COLECCIONES</p><h2 id="discover-title">Descubrir</h2>
+    <p class="muted">Personas que han añadido cartas y han elegido aparecer aquí. Ábrelas para ver su colección.</p>
+    <div id="discover-list" class="discover-list" role="list"></div>
+    <p id="discover-status" class="form-status" role="status"></p>
+  </dialog>
+  <dialog id="legal-dialog" class="legal-dialog" aria-labelledby="legal-title">
+    <button class="close-button" data-close="legal-dialog" aria-label="Cerrar información legal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <p class="eyebrow">INFORMACIÓN LEGAL</p><h2 id="legal-title">Licencias y créditos</h2>
+    <section id="legal-licencias">
+      <h3>Licencias</h3>
+      <p>El código de esta web y de sus herramientas tiene licencia <b>MIT</b> (© 2026 Adrián Rodríguez). Los avatares son dibujos originales del proyecto. Las <b>fotografías propias</b> de cartas (21) tienen todos los derechos reservados. Los textos completos están en los archivos <code>LICENSE</code> y <code>THIRD_PARTY_NOTICES</code> del <a href="https://github.com/ItsRodryy/web_pokemon_tcg" target="_blank" rel="noopener noreferrer">repositorio</a>.</p>
+    </section>
+    <section>
+      <h3>Marcas y derechos de las cartas</h3>
+      <p>Pokémon y los nombres de Pokémon son marcas de Nintendo. Pokémon Trading Card Game, sus cartas, imágenes, textos y personajes pertenecen a Nintendo, Creatures Inc., GAME FREAK inc. y The Pokémon Company. Este es un proyecto de aficionado, sin ánimo de lucro, no oficial y sin relación con ellas. Las imágenes de cartas se muestran solo para catalogar una colección personal.</p>
+    </section>
+    <section>
+      <h3>Fuentes y créditos</h3>
+      <ul>
+        <li><b>TCGdex</b> (MIT): índice multilingüe de cartas y algunas imágenes. <a href="https://tcgdex.dev" target="_blank" rel="noopener noreferrer">tcgdex.dev</a></li>
+        <li><b>PokéAPI</b> (BSD-3-Clause): nombres oficiales de las especies. <a href="https://pokeapi.co" target="_blank" rel="noopener noreferrer">pokeapi.co</a></li>
+        <li><b>Daldagury</b>: catálogo comunitario de cartas coreanas y japonesas y sus imágenes, servicio de aficionados. <a href="https://daldagury.com/tcg/pokemon" target="_blank" rel="noopener noreferrer">daldagury.com</a></li>
+        <li><b>Supabase</b> (SDK con licencia MIT) para cuentas y datos, <b>Google</b> para iniciar sesión y <b>GitHub Pages</b> para publicar la web.</li>
+      </ul>
+    </section>
+    <section id="legal-privacidad">
+      <h3>Privacidad</h3>
+      <p><b>Sin sesión</b> no se guarda nada tuyo salvo, en este navegador, la forma de ver las cartas (cuadrícula o lista). No hay publicidad, analítica ni cookies de seguimiento.</p>
+      <p><b>Con sesión de Google</b> se guarda tu sesión en este navegador y, en Supabase, tu cuenta (el correo de Google y su identificador, que no se muestran a nadie desde la web) y tu perfil: nombre de usuario, avatar, si apareces en Descubrir y las cartas que añadas (solo referencias a cartas existentes y su cantidad). El propietario del proyecto puede ver en el panel de Supabase el correo con el que has entrado.</p>
+      <p><b>Quién ve qué:</b> tu nombre de usuario, tu avatar y tu colección son públicos si aparecen en Descubrir. Desactiva «Aparecer en Descubrir» en Tu cuenta para ocultarte. No escribas en tu nombre de usuario datos personales.</p>
+      <p><b>Borrar:</b> «Borrar mis datos» en Tu cuenta elimina tu perfil y tus cartas. Si no puedes entrar, contacta con el propietario a través de su perfil de GitHub (ItsRodryy).</p>
+      <p><b>Terceros:</b> las imágenes de cartas se cargan desde los servidores de TCGdex y Daldagury, y el inicio de sesión lo gestiona Google; esos servicios pueden registrar tu dirección IP según sus propias políticas.</p>
+    </section>
+  </dialog>
+  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title"><button class="close-button" id="close-about" aria-label="Cerrar información"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button><p class="eyebrow">INVENTARIO</p><h2 id="about-title">Sobre las cartas</h2><p>Una ficha por carta, idioma, edición y variante. Los recuentos son provisionales: dos pares de tomas y siete Pikachu fotografiados juntos requieren confirmar si muestran copias adicionales.</p><p>Las dudas de identificación se conservan en las fichas y en el filtro «Estado». Las fotografías frontales no permiten certificar el estado global del ejemplar.</p><p>Las fotos propias aparecen encuadradas en la cuadrícula y completas al abrir la carta. Las demás cartas usan escaneos originales de su idioma y edición, con las esquinas redondeadas. Las colecciones de otras personas muestran el escaneo de referencia de cada carta, enlazado desde su fuente.</p></dialog>
 </body>
 </html>

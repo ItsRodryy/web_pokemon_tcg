@@ -2,25 +2,33 @@
 
 Actualizado el 14 de octubre de 2026.
 
-## Hecho
+## Hecho (en local; publicado solo hasta el commit 1faef40)
 
-- Publicado el commit f326fe3 en https://itsrodryy.github.io/web_pokemon_tcg/ (`v=20261014_4`). Comprobado en la web, de forma anónima: 177 cartas, 178 ejemplares, imágenes cargando, «Entrar con Google», nombre rodrytela, sin errores de JavaScript ni de red.
-- Inventario: 177 fichas, 178 ejemplares (JP 63, ES 62, KR 52). 156 escaneos originales, 15 fotos propias idénticas a Git y 6 referencias tachadas. Los escaneos coreanos llevan la marca de agua oficial «Pokémon Card Game».
-- Revisión integral de Claude sobre lo de Codex: datos con un solo vocabulario de tipos y expansiones, filtros sin duplicados, formulario con rareza normalizada, salida de sesión siempre disponible, campos móviles a 16 px, índice web de 4,2 MB y validación ampliada (detalle en CHANGELOG).
-- AI Workspace actualizado a la plantilla 2.0.0 (skills autónomas, AGENTS generado, límites con `planes.ps1 -Accion Medir`, hooks portables). Retirados gestionados.json y el traspaso consumido de Codex.
+- Las 6 fotos propias sin escaneo (c089, c095, c096, c100, c101, c111) pierden la cruz y quedan protegidas: 21 fotos propias en total. Esquinas redondeadas en todos los escaneos.
+- Vista de 3 columnas en móvil y selector Cuadrícula/Lista (una carta ancha por fila), recordado en el navegador.
+- Editar abre el editor a la derecha del detalle (apilado en pantallas estrechas); X, Esc y clic fuera avisan de cambios sin guardar («Seguir editando · Descartar cambios · Guardar»), también en Tu cuenta.
+- Cerrar sesión con límite de 3 s y salida local garantizada (probado con un servidor que nunca responde). Tu cuenta muestra correo y si es administrador, para diagnosticar por qué no aparecía «Sincronizar».
+- Ocho avatares SVG propios, nombre inicial `Entrenador####`, visibilidad en Descubrir, «Borrar mis datos».
+- Descubrir y colecciones de otras personas (solo referencias al índice; sin subidas), colección propia para quien no es el propietario, enlaces `?u=`, moderación (ocultar) para el propietario.
+- `configurar_supabase_v2.sql` (repetible, solo añade). Sin ese SQL la web sigue funcionando sin Descubrir (probado).
+- LICENSE MIT, THIRD_PARTY_NOTICES, pie de página con licencias, créditos, marcas y privacidad. Licencias de TCGdex (MIT), PokéAPI (BSD-3) y supabase-js (MIT) comprobadas en sus repositorios.
+- Módulos nuevos: dialogos.js, editor.js, coleccion.js; pruebas nuevas probar_colecciones.cjs y ayuda_navegador.cjs.
 
 ## Verificación (14/10/2026, en local)
 
-- validar_catalogo.py, node --check y las tres pruebas simuladas (interfaz, OAuth con SDK real y transporte falso, permisos con PGlite): correctas.
-- Capturas revisadas en escritorio (cinco columnas) y a 390 px (sin desbordamiento).
-- No verificado: nada con la cuenta Google real ni contra el Supabase real.
+- validar_catalogo.py, node --check y las cuatro suites simuladas correctas: interfaz (3 columnas, lista, editor lateral, avisos, avatares), OAuth con SDK real (incluye servidor mudo), colecciones (Descubrir, ajenas, propia, visibilidad, borrado, moderación, sin SQL v2) y permisos PGlite (RLS, límites, upsert exacto de PostgREST, ocultación).
+- Capturas revisadas en escritorio y a 390 px.
+- No verificado: nada con cuentas Google reales ni contra el Supabase real.
 
-## Pendiente real
+## Pendiente
 
-- Con la cuenta real (única comprobación que falta; no se puede hacer sin su sesión de Google): entrar, cambiar el nombre y verlo en otro dispositivo; cerrar sesión y recargar; sincronizar las 177 cartas; editar una cantidad.
-- Seis escaneos inexistentes en las fuentes: c089, c095, c096 (MEP 089/099/100), c100 (MEP 022), c101 (SVP 208), c111 (30C clásica 123/172).
-- Ejecución automática de los hooks sin comprobar; el de Codex requiere confiarlo en `/hooks`.
+- Publicar (permiso expreso por operación) y comprobar Pages.
+- El usuario aplica configurar_supabase_v2.sql en Supabase y publica la app en Google Cloud (Google Auth Platform › Audience › Publish app) para abrirla a cualquiera.
+- Comprobación real con dos cuentas: entrar, avatar, añadir cartas, Descubrir, ocultarse, cerrar sesión, «Sincronizar las 177 cartas».
+- Mover la carpeta a D:\Proyectos\web_pokemon_tcg y actualizar rutas (al final; reabrir la sesión allí).
+- Daldagury es un servicio de aficionados: conviene pedirles permiso para el uso de su índice e imágenes (contact@daldagury.com).
+- Graphify y comprobación de hooks, aplazados por el usuario.
 
 ## Siguiente paso
 
-Que el usuario haga la comprobación real con su cuenta en la web publicada y avise de lo que falle.
+Pedir permiso de publicación; guiar al usuario con el SQL y Google; mover la carpeta.

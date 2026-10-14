@@ -28,9 +28,11 @@ Buscador por Pokémon, número o expansión. Mantener idiomas, tipo, expansión,
 
 ## Composición
 
-Cinco cartas por fila en ordenador; reducir columnas al estrechar la pantalla, hasta dos en móvil. Las 15 fotos propias nuevas se encuadran cerca de la carta en la cuadrícula, con su fondo natural. El detalle muestra el original completo. Para las demás cartas usar escaneos exactos sin retoques ni fondos artificiales. Si no existe una imagen exacta disponible, conservar la referencia con tachado negro y «Falta la foto de esta edición».
+Cinco cartas por fila en ordenador y tres en móvil (menos columnas al estrechar la pantalla). Un selector Cuadrícula/Lista permite ver una carta por fila, ancha y con su imagen; se recuerda en el navegador. Las 15 fotos propias nuevas se encuadran cerca de la carta en la cuadrícula, con su fondo natural. El detalle muestra el original completo. Para las demás cartas usar escaneos exactos sin retoques ni fondos artificiales. Los escaneos llevan esquinas redondeadas (5,1 % × 3,6 %, como la carta real); las fotos propias, nunca. Una carta sin imagen en el índice muestra un marcador neutro «Sin imagen disponible», sin tachado.
 
 Formulario privado con búsqueda de expansión por código o nombre, autocomplete de Pokémon y nombres reales de las cartas de la expansión, número manual contrastado con la referencia elegida y desplegables de categoría y tipo. Cantidad, foto y notas editables; al actualizar una ficha existente, su identidad se muestra atenuada y no se edita. Rareza automática cuando la fuente la indica; variante y motivos pendientes no se piden. Mostrar «Cerrar sesión» en la cabecera cuando haya sesión, incluso si no se puede validar el acceso al servicio.
+
+Editar una carta abre el editor a la derecha del detalle (apilado en pantallas estrechas). Cerrar con X, Esc o clic fuera con cambios sin guardar muestra una barra «Seguir editando · Descartar cambios · Guardar»; lo mismo en Tu cuenta. Tu cuenta incluye ocho avatares redondos minimalistas en grises, la casilla «Aparecer en Descubrir» y «Borrar mis datos» con doble pulsación. Descubrir es una lista de personas (avatar, nombre y número de cartas); una colección ajena muestra una barra de contexto con «Volver». El pie de página enlaza Sobre los datos, Licencias y créditos y Privacidad.
 
 ## Errores que evitar
 

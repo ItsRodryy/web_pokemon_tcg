@@ -1,4 +1,4 @@
-"""Guarda escaneos originales verificados; respeta las 15 fotos del usuario.
+"""Guarda escaneos originales verificados; respeta las 21 fotos del usuario.
 
 Sin recortes, reescalados ni fondos artificiales. Si falta una imagen exacta,
 conserva la referencia existente y la marca para mostrar el aviso en la web.
@@ -12,8 +12,10 @@ from urllib.request import Request, urlopen
 from PIL import Image
 from actualizar_referencias import BASE, obtener
 
+# 15 fotos nuevas y 6 fotos anteriores del usuario: nunca se sustituyen por escaneos.
 PROPIAS = {'c159', 'c162', 'c163', 'c160', 'c165', 'c028', 'c023', 'c107',
-           'c161', 'c108', 'c104', 'c103', 'c088', 'c106', 'c010'}
+           'c161', 'c108', 'c104', 'c103', 'c088', 'c106', 'c010',
+           'c089', 'c095', 'c096', 'c100', 'c101', 'c111'}
 
 
 def numero(v):

@@ -33,11 +33,16 @@ https://itsrodryy.github.io/web_pokemon_tcg/
 
 Para guardar cambios, abre la version publicada e inicia sesion con Google.
 En Tu cuenta puedes cambiar tu nombre y sincronizar la coleccion inicial.
-Solo el Google verificado de adrianrodry55@gmail.com puede editar cartas.
-El resto puede consultar la coleccion; cada usuario edita su propio nombre.
+Solo el Google verificado de adrianrodry55@gmail.com edita la coleccion principal
+(fotos incluidas). Cualquier persona con Google guarda su propia coleccion (solo
+referencias a cartas existentes) y elige su nombre y uno de 8 avatares.
 Anadir carta permite crear una ficha o actualizar una existente, su cantidad
 total y su fotografia. Ajusta el encuadre con los tres controles de la foto.
 La foto completa se conserva al abrir la carta.
+
+Supabase: ejecuta en su SQL Editor, por este orden, configurar_supabase.sql y
+configurar_supabase_v2.sql (la segunda abre la web a que cada persona guarde su
+coleccion y aparezca en Descubrir). Ambas se pueden repetir sin perder datos.
 
 Los cambios de la web se guardan en Supabase, no en datos.json.
 datos.json sigue siendo la copia inicial local; no sobrescribir con ella

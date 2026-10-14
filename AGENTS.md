@@ -20,14 +20,15 @@ Autoría: Adrián Rodríguez. Ninguna IA figura como autora ni firma nada.
 
 - Plataformas: Windows, navegadores de ordenador y móvil.
 - Tecnologías: HTML, CSS y JavaScript sin framework; Python 3.9 o posterior para herramientas locales.
-- Trabaja solo dentro de C:/Users/adria/Desktop/cartas_pokemon; web_pokemon_tcg es el nombre del proyecto, no permiso para mover o renombrar la carpeta.
+- Trabaja solo dentro de D:/Proyectos/web_pokemon_tcg (antes C:/Users/adria/Desktop/cartas_pokemon); no muevas ni renombres la carpeta sin que el usuario lo pida.
 - Sin precios, filtros u ordenación por precio ni herramientas de valoración.
 - Solo cartas en japonés, español y coreano. Las dudas de identificación o variante se conservan como pendientes.
 - Se conservan imagenes_cartas (japones, español, coreano, pendientes), herramientas, catalogo_cartas y catalogo_cartas.html; minúsculas y barrabajas; imágenes numeradas con nombre, edición y número.
-- Imágenes: las 15 fotos propias se conservan completas y sin cambiar el fondo (encuadre solo en la cuadrícula; el detalle las muestra enteras); el resto, escaneos exactos del idioma y la edición sin modificar sus bytes; si falta uno, referencia tachada con aviso visible. Sustituir una imagen no añade fichas ni ejemplares.
-- Publicado en GitHub Pages (ItsRodryy/web_pokemon_tcg) con el Supabase exclusivo jrdgqdczplvehzzyhgqx y Google; edición solo para el Google verificado de adrianrodry55@gmail.com. Sin servicios de pago. Las pruebas simuladas no confirman sesión, perfil ni edición reales.
-- El nombre junto a la Poké Ball es el username del perfil de Supabase del usuario conectado; sin sesión, rodrytela. Nunca simular persistencia solo en el navegador.
+- Imágenes: las 21 fotos propias (15 nuevas y 6 anteriores) se conservan completas, sin cruz ni cambio de fondo (encuadre solo en la cuadrícula; el detalle las muestra enteras); el resto, escaneos exactos del idioma y la edición sin modificar sus bytes, con esquinas redondeadas por CSS. Sustituir una imagen no añade fichas ni ejemplares.
+- Publicado en GitHub Pages (ItsRodryy/web_pokemon_tcg) con el Supabase exclusivo jrdgqdczplvehzzyhgqx y Google. Cualquiera con Google guarda su propia colección (solo referencias a cartas del índice, sin fotos ni texto libre); el Google verificado de adrianrodry55@gmail.com conserva la colección principal, las fotos y la moderación. Sin servicios de pago. Las pruebas simuladas no confirman sesión, perfil ni edición reales.
+- El nombre junto a la Poké Ball es el username del perfil de Supabase del usuario conectado; sin sesión, rodrytela. Foto de perfil: solo los 8 avatares predefinidos. Descubrir lista a quien eligió aparecer. Nunca simular persistencia solo en el navegador.
 - Nuevas cartas: solo identidades existentes en referencias (idioma, expansión y número); autocompletado de expansiones y Pokémon, categoría y tipo desplegables, rareza de la fuente; sin variante ni motivos pendientes en el formulario. Tipos con el vocabulario de TCGdex en español.
+- Licencia MIT para el código (LICENSE y THIRD_PARTY_NOTICES); fotos propias con derechos reservados; el pie de la web cita licencias, marcas y privacidad.
 - D:/Proyectos/vision_driver solo se lee para estilo (radios de 8/12/16 px en la interfaz monocroma); no se ejecuta ni modifica nada allí.
 - C:/Users/adria/Desktop/credenciales_web_pokemon_tcg.md se mantiene por petición del usuario; es privado y nunca entra en Git ni en la web.
 - Intocable sin orden expresa: fotografías originales del escritorio (se pueden leer si el usuario las señala; nunca modificar, mover ni borrar); cualquier ruta fuera de este proyecto salvo las excepciones anteriores.

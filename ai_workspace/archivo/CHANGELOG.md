@@ -2,6 +2,7 @@
 
 ## 2026-10-14
 
+- Web abierta a más personas (pendiente de aplicar SQL v2 y publicar la app en Google): colección propia de cada usuario sin subidas, Descubrir, 8 avatares, edición lateral con aviso de cambios, vista de 3 columnas y lista, esquinas redondeadas en escaneos y licencia MIT con pie legal. Las 6 fotos propias sin escaneo pasan a protegidas sin cruz (21 en total). Decisión de seguridad: las cartas ajenas son solo referencias al índice, nunca texto libre.
 - AI Workspace actualizado a la plantilla 2.0.0: AGENTS generado desde respuestas, skills autónomas, límites de tamaño medidos al cerrar, tres planes archivados y hooks con rutas portables.
 - Se eliminaron precios, filtros de precio y automatizaciones de valoración por petición expresa del usuario.
 - Se sustituyó la cabecera por rodrytela con logo gris, paleta monocroma, cinco columnas y textos algo mayores.

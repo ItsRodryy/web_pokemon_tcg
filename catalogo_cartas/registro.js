@@ -102,7 +102,7 @@
     const strong=document.createElement('strong');text(strong,card.nombre+' · '+card.numero);
     const span=document.createElement('span');text(span,card.expansion+(card.rareza&&card.rareza!=='Sin rareza indicada'?' · '+card.rareza:''));panel.append(strong,span);
     $('card-matches').hidden=true;
-    help('Carta seleccionada. '+(!category||!type?'Elige su categoría y tipo según lo que aparece impreso en la carta.':'La categoría y el tipo proceden de su referencia.'));
+    help('Carta seleccionada. '+((!category||!type)&&!form.classList.contains('user-mode')?'Elige su categoría y tipo según lo que aparece impreso en la carta.':'La categoría y el tipo proceden de su referencia.'));
   }
   async function chooseCard(brief){
     const set=registry.set;if(!set)return;invalidate();const version=registry.version;
@@ -135,7 +135,7 @@
   async function prepare(){
     if(registry.refs)return registry.refs;
     if(!registry.promise)registry.promise=new Promise((resolve,reject)=>{
-      const script=document.createElement('script');script.src=new URL('catalogo_cartas/referencias.js?v=20261014_4',location.href).href;
+      const script=document.createElement('script');script.src=new URL('catalogo_cartas/referencias.js?v=20261014_5',location.href).href;
       script.onload=()=>window.TCG_REFERENCIAS?resolve(window.TCG_REFERENCIAS):reject(Error('No se encontraron las referencias.'));script.onerror=()=>reject(Error('No se pudo cargar el índice de cartas.'));document.head.append(script);
     }).then(refs=>{
       registry.refs=refs;
@@ -158,14 +158,16 @@
     }else help('Elige idioma y expansión. Después busca la carta por nombre o número.');
     setCombo.close();pokemonCombo.close();
   }
-  function getCard(){
+  function getCard(options={}){
     const card=registry.selected;
     if(!card||card.nombre!==$('pokemon-search').value||number(card.numero)!==number($('card-number').value)||card.idioma!==form.elements.idioma.value)throw Error('Elige una carta existente entre las coincidencias. No se pueden registrar nombres o números inventados.');
     if(registry.existing)return {...registry.existing};
+    // Otras personas solo registran la carta; categoría y tipo salen de la referencia si constan.
+    if(options.lenient)return {...card};
     const cat=registry.refs.categorias.find(c=>c.valor===$('card-category').value),type=$('card-type').value;
     if(!cat||!type)throw Error('Elige la categoría y el tipo que aparecen en la carta.');
     if((cat.grupo==='Entrenador'&&type!=='Entrenador')||(cat.grupo==='Energía'&&type!=='Energía')||(cat.grupo==='Pokémon'&&['Entrenador','Energía'].includes(type)))throw Error('La categoría y el tipo deben corresponder a la misma carta.');
     return {...card,categoria:cat.grupo,subcategoria:cat.subtipo,tipo:type};
   }
-  window.tcgRegistry={prepare,setExisting,getCard,get selected(){return registry.selected;}};
+  window.tcgRegistry={prepare,setExisting,getCard,get refs(){return registry.refs;},get selected(){return registry.selected;}};
 })();

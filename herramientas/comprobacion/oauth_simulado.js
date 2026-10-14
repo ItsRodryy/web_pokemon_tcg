@@ -14,6 +14,7 @@
    if(localStorage.getItem('tcg_oauth_fallo_usuario'))return new Response(JSON.stringify({message:'Consulta del usuario temporalmente fallida',code:'unexpected_failure'}),{status:400,headers:{'Content-Type':'application/json'}});
    result=user;
   }
+  else if(url.includes('/auth/v1/logout')&&localStorage.getItem('tcg_oauth_cuelga'))return new Promise(()=>{}); // El servidor nunca responde.
   else if(url.includes('/auth/v1/logout')&&localStorage.getItem('tcg_oauth_fallo_red'))throw new TypeError('Failed to fetch');
   else if(url.includes('/auth/v1/logout')&&localStorage.getItem('tcg_oauth_fallo_salida'))return new Response(JSON.stringify({message:'Servicio no disponible'}),{status:400,headers:{'Content-Type':'application/json'}});
   else if(url.includes('/rest/v1/tcg_profiles'))result=[{id:uid,username:'Nombre OAuth persistente'}];

@@ -2872,7 +2872,7 @@
         0.99
       ]
     ],
-    "imagen_faltante": true,
+    "imagen_faltante": false,
     "fuente_tipo": "https://api.tcgdex.net/v2/en/cards/mep-089"
   },
   {
@@ -3085,7 +3085,7 @@
         0.99
       ]
     ],
-    "imagen_faltante": true,
+    "imagen_faltante": false,
     "fuente_tipo": "https://api.tcgdex.net/v2/en/cards/mep-099"
   },
   {
@@ -3133,7 +3133,7 @@
         0.98
       ]
     ],
-    "imagen_faltante": true,
+    "imagen_faltante": false,
     "fuente_tipo": "https://api.tcgdex.net/v2/en/cards/mep-100"
   },
   {
@@ -3280,7 +3280,7 @@
         0.93
       ]
     ],
-    "imagen_faltante": true
+    "imagen_faltante": false
   },
   {
     "id": "c101",
@@ -3327,7 +3327,7 @@
         0.98
       ]
     ],
-    "imagen_faltante": true
+    "imagen_faltante": false
   },
   {
     "id": "c102",
@@ -3691,7 +3691,7 @@
         0.98
       ]
     ],
-    "imagen_faltante": true
+    "imagen_faltante": false
   },
   {
     "id": "c112_01",
