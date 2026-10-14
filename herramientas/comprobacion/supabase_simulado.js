@@ -27,6 +27,8 @@
  }
  const client={from:table=>new Query(table),rpc:async()=>({data:user?.id===owner,error:null}),auth:{
   getUser:async()=>({data:{user},error:null}),
+  getSession:async()=>({data:{session:user?{user}:null},error:null}),
+  stopAutoRefresh:async()=>{},
   initialize:async()=>({error:null}),
   onAuthStateChange:fn=>{callback=fn;setTimeout(()=>fn('INITIAL_SESSION',{user}),0);return {data:{subscription:{unsubscribe(){}}}};},
   signInWithOAuth:async args=>{window.testOAuth=args;return {data:{},error:null};},

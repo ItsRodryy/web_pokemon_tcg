@@ -1,0 +1,22 @@
+{
+  "id": "me02-001",
+  "localId": "001",
+  "name": "Oddish",
+  "category": "Pokémon",
+  "types": [
+    "Planta"
+  ],
+  "rarity": "Común",
+  "set": {
+    "cardCount": {
+      "official": 94,
+      "total": 130
+    },
+    "id": "me02",
+    "logo": "https://assets.tcgdex.net/es/me/me02/logo",
+    "name": "Fuegos Fantasmales"
+  },
+  "dexId": [
+    43
+  ]
+}

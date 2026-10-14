@@ -1,0 +1,9 @@
+# SDK minificado e indices generados: solo añaden ruido al grafo.
+catalogo_cartas/supabase.js
+catalogo_cartas/referencias.js
+catalogo_cartas/referencias.json
+catalogo_cartas/datos.js
+imagenes_cartas/
+herramientas/comprobacion/node_modules/
+herramientas/comprobacion/perfil_*/
+herramientas/plantilla_ai_workspace/

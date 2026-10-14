@@ -11,6 +11,9 @@ from collections import Counter
 from pathlib import Path
 from urllib.parse import urlsplit
 
+sys.dont_write_bytecode = True  # Sin __pycache__ dentro del proyecto.
+from actualizar_referencias import texto_web  # noqa: E402
+
 BASE = Path(__file__).resolve().parents[1]
 
 
@@ -20,7 +23,7 @@ def validar():
         if not condicion:
             errores.append(mensaje)
     catalogo = {'imagenes_cartas', 'herramientas', 'catalogo_cartas', 'catalogo_cartas.html'}
-    infraestructura = {'plantilla_ai_workspace', 'ai_workspace', '.agents', '.claude', '.codex', 'AGENTS.md', 'CLAUDE.md', 'graphify-out', '.git', '.gitignore', '.nojekyll', 'index.html'}
+    infraestructura = {'plantilla_ai_workspace', 'ai_workspace', '.agents', '.claude', '.codex', 'AGENTS.md', 'CLAUDE.md', 'PLAN_ACTUAL.md', 'graphify-out', '.graphifyignore', '.git', '.gitignore', '.nojekyll', 'index.html'}
     presentes = {p.name for p in BASE.iterdir()}
     comprobar(catalogo <= presentes <= catalogo | infraestructura, 'Faltan archivos del catalogo o hay elementos ajenos al proyecto.')
     idiomas = {'japones', 'español', 'coreano', 'pendientes'}
@@ -31,6 +34,15 @@ def validar():
     comprobar(json.loads(js.removeprefix('window.CATALOGO_DATA = ').strip().removesuffix(';')) == cartas, 'datos.js no coincide con datos.json; ejecuta actualizar_catalogo.py.')
     ids = [c['id'] for c in cartas]
     comprobar(len(ids) == len(set(ids)), 'Fichas con id duplicado.')
+    referencias = json.loads((BASE / 'catalogo_cartas/referencias.json').read_text(encoding='utf-8'))
+    comprobar((BASE / 'catalogo_cartas/referencias.js').read_text(encoding='utf-8') == texto_web(referencias), 'referencias.js no coincide con referencias.json; ejecuta actualizar_referencias.py --solo-web.')
+    # Un unico vocabulario de tipos (TCGdex en espanol) evita opciones repetidas en el filtro.
+    tipos = set(referencias['tipos']) | {'Entrenador', 'Energía', 'Por confirmar'}
+    nombres_expansion = {}
+    for c in cartas:
+        comprobar(all(t in tipos for t in c['tipo'].split(' / ')), f"Tipo fuera del vocabulario: {c['id']} {c['tipo']}")
+        nombre = nombres_expansion.setdefault((c['idioma'], c['codigo']), c['expansion'])
+        comprobar(nombre == c['expansion'], f"Expansion con dos nombres: {c['id']} {c['codigo']}")
     imagenes = set()
     for c in cartas:
         ruta = (BASE / c['imagen']).resolve()
@@ -58,7 +70,7 @@ def validar():
             comprobar((BASE / urlsplit(referencia).path).is_file(), 'Enlace local ausente: ' + referencia)
     for ruta in BASE.rglob('*'):
         relativa = ruta.relative_to(BASE)
-        if relativa.parts[0] in infraestructura or 'plantilla_ai_workspace' in relativa.parts:
+        if relativa.parts[0] in infraestructura or 'plantilla_ai_workspace' in relativa.parts or '__pycache__' in relativa.parts:
             continue
         if relativa.parts[:2] == ('herramientas', 'comprobacion') and ('node_modules' in relativa.parts or any(p.startswith('perfil_') for p in relativa.parts[2:])):
             continue

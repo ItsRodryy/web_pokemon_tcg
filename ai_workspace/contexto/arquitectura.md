@@ -1,18 +1,16 @@
 # Arquitectura actual
 
-La raíz real sigue siendo C:/Users/adria/Desktop/cartas_pokemon. El nombre elegido del proyecto es web_pokemon_tcg; la marca visible es rodrytela.
+Raíz C:/Users/adria/Desktop/cartas_pokemon. Nombre web_pokemon_tcg; autor Adrián Rodríguez. Estado en ESTADO.md.
 
-- catalogo_cartas.html carga catalogo_cartas/catalogo.css, datos.js y catalogo.js mediante rutas relativas. Funciona abierto directamente, sin servidor ni conexión para consultar las cartas locales.
-- catalogo_cartas/datos.json contiene 177 fichas y 178 ejemplares provisionales. datos.js es su copia para el navegador y se regenera con herramientas/actualizar_catalogo.py.
-- imagenes_cartas contiene 177 imágenes, una por ficha. Las carpetas son japones, español, coreano y pendientes. Una ficha pendiente guarda su imagen en pendientes, sin perder el campo idioma.
-- Se incorporaron 15 fotos propias del escritorio, completas y sin modificar su contenido. En esas fichas, encuadre guarda x, y, ancho, alto y dimensiones originales; JavaScript aplica el recorte visual en miniatura. El detalle utiliza la misma imagen completa.
-- El resto de las imágenes existentes se conserva. No hay funciones, campos ni actualizadores de precios.
-- herramientas/abrir_catalogo.cmd abre el HTML. herramientas/validar_catalogo.py verifica datos, imágenes, referencias locales y estructura; admite la infraestructura de IA aparte del catálogo.
-- No hay compilación ni framework. catalogo_cartas/cuenta.js integra el SDK oficial Supabase, guardado localmente en supabase.js; configuracion.js contiene únicamente URL y clave Publishable públicas.
-- El nombre junto al logo proviene de tcg_profiles.username, vinculado al identificador de Google/Supabase, y se actualiza solo tras confirmar el guardado remoto. Sin sesión aparece rodrytela.
-- tcg_cards mantiene fichas remotas que se combinan por id con el inventario local; las copias se editan mediante su cantidad total. Storage guarda las fotos completas y encuadre controla solo la miniatura.
-- herramientas/configurar_supabase.sql define perfiles privados, cartas públicas y escritura limitada al Google verificado del administrador. Está probado con PostgreSQL local; requiere aplicarlo al proyecto real antes de usar la edición.
-
-## Evolución elegida, aún pendiente
-
-Publicación pública en GitHub Pages con ItsRodryy/web_pokemon_tcg, autorizada con autoría de Adrián Rodríguez. Proyecto Supabase jrdgqdczplvehzzyhgqx confirmado y Google habilitado; falta aplicar el SQL, completar redirecciones y usuarios de prueba y comprobar el flujo real. El formulario está implementado y probado con un servicio simulado. No guardar secretos de administración en HTML ni JavaScript públicos. No tocar otros repositorios ni realizar operaciones destructivas sin preguntar.
+- HTML/CSS/JavaScript sin framework. catalogo_cartas.html carga, con parámetro de versión `?v=`, datos, configuración pública, SDK Supabase local, catálogo, registro y cuenta. Al cambiar un recurso, subir la versión en el HTML (y la de referencias.js en registro.js). index.html redirige conservando el retorno OAuth.
+- datos.json/js: 177 fichas, 178 ejemplares provisionales. actualizar_catalogo.py sincroniza JS; validar_catalogo.py comprueba estructura, imágenes, nombres, vocabulario de tipos, un nombre por expansión y que referencias.js derive de referencias.json.
+- Tipos: vocabulario de TCGdex en español (Agua, Dragón, Fuego, Hada, Incolora, Lucha, Metálica, Oscura, Planta, Psíquico, Rayo), más Entrenador, Energía y Por confirmar. Rareza: la de la fuente; la interfaz traduce valores en inglés y el filtro agrupa por etiqueta.
+- imagenes_cartas: 177 archivos. 156 escaneos originales (TCGdex, pokemon-card.com y Daldagury; los coreanos llevan la marca de agua oficial «Pokémon Card Game»), 15 fotos propias protegidas y 6 referencias provisionales tachadas. El encuadre afecta solo a la cuadrícula; el detalle muestra la imagen completa.
+- cuenta.js: Google PKCE, sesión, nombre en tcg_profiles, edición del administrador, importación inicial y fotos. Cerrar sesión siempre está disponible (cabecera y Tu cuenta), aunque haya otra operación en curso; si el servicio o la red fallan, borra solo las claves de autenticación de este proyecto y recarga.
+- tcg_cards remoto se combina por id con los datos iniciales: se conservan cantidad y notas remotas; para imágenes locales iniciales manda la metadata del snapshot; fotos HTTPS de Supabase se mantienen; tipos antiguos se normalizan al mostrarlos.
+- registro.js carga referencias.js (4,2 MB, versión reducida) solo al abrir el editor. Solo registra cartas existentes en el índice; consulta TCGdex en vivo para categoría, tipo y rareza, y si no hay datos pide elegir categoría y tipo. Al editar una ficha existente solo cambian cantidad, foto y notas. La restricción de identidad está en el formulario; RLS reserva la escritura al propietario.
+- Referencias: actualizar_referencias.py (TCGdex y PokeAPI) y completar_referencias.py (Daldagury, repetible) escriben referencias.json completo y referencias.js reducido; `--solo-web` regenera el JS sin descargas. Lista cerrada de campos, sin precios. Hay expansiones sin cartas en las fuentes: el alta queda bloqueada en ellas.
+- configurar_supabase.sql (ya aplicado): perfiles privados por uid, cartas públicas, escritura del Google verificado administrador, bucket público con escritura limitada al prefijo uid del administrador.
+- Pruebas en herramientas/comprobacion: interfaz y OAuth con Supabase simulado o SDK real con transporte falso; permisos con PGlite. No sustituyen la comprobación con la cuenta real.
+- Publicado en https://itsrodryy.github.io/web_pokemon_tcg/ (versión de HEAD 96d0d2c). Los cambios posteriores están locales hasta que el usuario autorice cada operación Git/GitHub.
+- Graphify: .graphifyignore excluye el SDK minificado, índices generados e imágenes.

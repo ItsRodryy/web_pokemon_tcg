@@ -5,7 +5,7 @@ server.listen(0,'127.0.0.1',()=>start(server.address().port));
 function start(port){
  const child=spawn('C:/Program Files/Google/Chrome/Application/chrome.exe',['--headless=new','--remote-debugging-port=0','--no-first-run','--disable-background-networking','--user-data-dir='+path.join(__dirname,'perfil_oauth'),'about:blank'],{windowsHide:true,stdio:['ignore','ignore','pipe']});
  let ws,n=0,stderr='',started=false;const calls=new Map(),errors=[];
- const timer=setTimeout(()=>{child.kill();server.close();process.exitCode=1;},25000);
+ const timer=setTimeout(()=>{child.kill();server.close();process.exitCode=1;},40000);
  async function run(url){
   ws=new WebSocket(url);await new Promise(r=>ws.onopen=r);
   ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id){const c=calls.get(m.id);calls.delete(m.id);m.error?c.reject(Error(JSON.stringify(m.error))):c.resolve(m.result);}if(m.method==='Runtime.exceptionThrown')errors.push(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text);};
@@ -22,8 +22,29 @@ function start(port){
    await evaluate(`if(localStorage.getItem('tcg_oauth_intercambiado')!=='si')throw Error('No intercambia PKCE');if(!localStorage.getItem('sb-jrdgqdczplvehzzyhgqx-auth-token'))throw Error('No guarda sesion');`);
    await cmd('Page.reload',{},sid);
    await wait('window.tcgAccount?.isAdmin && document.getElementById("account-button")?.textContent==="Tu cuenta"');
+   await evaluate(`if(document.getElementById('header-sign-out').hidden)throw Error('Sin salida directa');localStorage.setItem('tcg_oauth_fallo_usuario','si');`);
+   await cmd('Page.reload',{},sid);
+   await wait('window.tcgAccount?.user && !window.tcgAccount.isAdmin && !document.getElementById("header-sign-out").hidden && document.getElementById("connection-status").textContent.includes("no se pudo comprobar")');
+   await evaluate(`document.getElementById('header-sign-out').click();`);
+   await wait('!window.tcgAccount.user && !localStorage.getItem("sb-jrdgqdczplvehzzyhgqx-auth-token")');
+   await evaluate(`localStorage.removeItem('tcg_oauth_fallo_usuario');`);
+   await cmd('Page.reload',{},sid);
+   await wait('window.tcgAccount && document.getElementById("account-button").textContent==="Entrar con Google" && document.getElementById("header-sign-out").hidden');
+   await cmd('Page.navigate',{url:`http://127.0.0.1:${port}/index.html?code=prueba_oauth_salida`},sid);
+   await wait('window.tcgAccount?.isAdmin');
+   await evaluate(`localStorage.setItem('tcg_oauth_fallo_salida','si');document.getElementById('header-sign-out').click();`);
+   await wait('window.tcgAccount && !window.tcgAccount.user && !localStorage.getItem("sb-jrdgqdczplvehzzyhgqx-auth-token")');
+   await evaluate(`localStorage.removeItem('tcg_oauth_fallo_salida');`);
+   // Sin red al cerrar: salida local igualmente y sigue cerrada tras recargar.
+   await cmd('Page.navigate',{url:`http://127.0.0.1:${port}/index.html?code=prueba_oauth_red`},sid);
+   await wait('window.tcgAccount?.isAdmin');
+   await evaluate(`localStorage.setItem('tcg_oauth_fallo_red','si');document.getElementById('header-sign-out').click();`);
+   await wait('window.tcgAccount && !window.tcgAccount.user && !localStorage.getItem("sb-jrdgqdczplvehzzyhgqx-auth-token")');
+   await evaluate(`localStorage.removeItem('tcg_oauth_fallo_red');`);
+   await cmd('Page.navigate',{url:`http://127.0.0.1:${port}/catalogo_cartas.html`},sid);
+   await wait('window.tcgAccount && document.getElementById("account-button").textContent==="Entrar con Google" && document.getElementById("header-sign-out").hidden');
    if(errors.length)throw Error(errors.join(';'));
-   console.log('SDK Supabase real: callback PKCE desde index, sesion persistente, nombre remoto y administrador correctos.');
+   console.log('SDK Supabase real: PKCE, sesion persistente, salida directa, salida con error de usuario/servicio/red y recarga sin sesion correctos.');
   }finally{await cmd('Browser.close').catch(()=>{});ws.close();clearTimeout(timer);server.close();}
  }
  child.stderr.on('data',b=>{stderr+=b;const m=stderr.match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m&&!started){started=true;run(m[1]).catch(e=>{console.error(e.message);process.exitCode=1;clearTimeout(timer);child.kill();server.close();});}});

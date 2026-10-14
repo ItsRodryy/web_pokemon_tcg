@@ -4,10 +4,9 @@
                                      {
                                          "hooks":  [
                                                        {
+                                                           "command":  "graphify update \"$CLAUDE_PROJECT_DIR\" \u003e/dev/null 2\u003e\u00261 || true",
                                                            "type":  "command",
-                                                           "command":  "graphify update \"C:/Users/adria/Desktop/cartas_pokemon\" \u003e/dev/null 2\u003e\u00261 || true",
-                                                           "timeout":  60,
-                                                           "statusMessage":  "Actualizando el grafo del código…"
+                                                           "timeout":  120
                                                        }
                                                    ]
                                      }

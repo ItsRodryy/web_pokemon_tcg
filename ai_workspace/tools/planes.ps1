@@ -1,18 +1,27 @@
-﻿param(
+param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet("Estado", "Archivar", "Podar")]
+    [ValidateSet("Estado", "Archivar", "Podar", "Medir")]
     [string]$Accion,
 
     [ValidateSet("BORRADOR", "APROBADO", "EN CURSO", "BLOQUEADO", "COMPLETADO", "INCOMPLETO")]
     [string]$Estado,
 
     [string]$Raiz = "",
-    [int]$Conservar = 5
+    [int]$Conservar = 3
 )
 
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version 2.0
 $estadosArchivo = @("COMPLETADO", "INCOMPLETO")
+# Límites por defecto en KB; ai_workspace/configuracion.json (limites_kb) puede cambiarlos.
+# Una clave terminada en "/" se aplica a cada archivo de esa carpeta.
+$limitesPorDefecto = [ordered]@{
+    "AGENTS.md" = 6
+    "PLAN_ACTUAL.md" = 10
+    "ai_workspace/ESTADO.md" = 3
+    "ai_workspace/archivo/CHANGELOG.md" = 6
+    "ai_workspace/contexto/" = 8
+}
 
 if (-not $Raiz) {
     $Raiz = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot "..\.."))
@@ -89,6 +98,67 @@ function Podar-Planes {
     }
 }
 
+function Obtener-Limites {
+    $limites = [ordered]@{}
+    foreach ($clave in $limitesPorDefecto.Keys) { $limites[$clave] = $limitesPorDefecto[$clave] }
+    $configuracion = Join-Path $Raiz "ai_workspace\configuracion.json"
+    if (Test-Path -LiteralPath $configuracion -PathType Leaf) {
+        $datos = [IO.File]::ReadAllText($configuracion, [Text.Encoding]::UTF8) | ConvertFrom-Json
+        if ($datos.PSObject.Properties['limites_kb'] -and $datos.limites_kb) {
+            foreach ($propiedad in $datos.limites_kb.PSObject.Properties) {
+                $limites[$propiedad.Name] = [double]$propiedad.Value
+            }
+        }
+    }
+    return $limites
+}
+
+function Medir {
+    $limites = Obtener-Limites
+    $excesos = 0
+    $revisar = 0
+    foreach ($clave in $limites.Keys) {
+        $ruta = Join-Path $Raiz ($clave.TrimEnd('/').Replace('/', '\'))
+        $archivos = @()
+        if ($clave.EndsWith('/')) {
+            if (Test-Path -LiteralPath $ruta -PathType Container) {
+                $archivos = @(Get-ChildItem -LiteralPath $ruta -File -Recurse)
+            }
+        }
+        elseif (Test-Path -LiteralPath $ruta -PathType Leaf) {
+            $archivos = @(Get-Item -LiteralPath $ruta)
+        }
+        foreach ($elemento in $archivos) {
+            $kb = [math]::Round($elemento.Length / 1024, 1)
+            if ($kb -gt $limites[$clave]) {
+                $relativa = $elemento.FullName.Substring($Raiz.Length + 1).Replace('\', '/')
+                Write-Output "EXCEDE $relativa $kb/$($limites[$clave]) KB"
+                $excesos++
+            }
+        }
+    }
+    # Lo que no debe acumularse: copias, binarios, informes y traspasos duplicados.
+    $permitidas = @('.md', '.json', '.ps1')
+    $carpetaIA = Join-Path $Raiz "ai_workspace"
+    if (Test-Path -LiteralPath $carpetaIA -PathType Container) {
+        foreach ($elemento in @(Get-ChildItem -LiteralPath $carpetaIA -File -Recurse)) {
+            $relativa = $elemento.FullName.Substring($Raiz.Length + 1).Replace('\', '/')
+            if ($elemento.Extension.ToLowerInvariant() -notin $permitidas -or $elemento.Name -match '(?i)traspaso|respaldo|backup') {
+                Write-Output "REVISAR $relativa"
+                $revisar++
+            }
+        }
+    }
+    foreach ($elemento in @(Get-ChildItem -LiteralPath $Raiz -File -Filter "*.md")) {
+        if ($elemento.Name -match '(?i)traspaso|handoff') {
+            Write-Output "REVISAR $($elemento.Name)"
+            $revisar++
+        }
+    }
+    if ($excesos + $revisar -eq 0) { Write-Output "MEDIDA_OK" }
+    else { Write-Output "MEDIDA_PENDIENTE excede=$excesos revisar=$revisar" }
+}
+
 switch ($Accion) {
     "Estado" {
         if (-not $Estado) { throw "Estado es obligatorio para la acción Estado" }
@@ -127,4 +197,5 @@ switch ($Accion) {
         Podar-Planes
     }
     "Podar" { Podar-Planes }
+    "Medir" { Medir }
 }

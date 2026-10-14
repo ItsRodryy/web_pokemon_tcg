@@ -1,0 +1,14 @@
+{
+  "expansiones": {
+    "dalda:ko:20": {
+      "codigo": "S7R",
+      "codigo_fuente": "S7",
+      "nota": "La fuente agrupa el código como S7. S7R está impreso en c063 y consta en https://api.tcgdex.net/v2/ko/sets/S7R."
+    },
+    "dalda:ko:344": {
+      "codigo": "S7D",
+      "codigo_fuente": "S7",
+      "nota": "Producto 마천퍼펙트, identificado como S7D en https://api.tcgdex.net/v2/ko/sets/S7D."
+    }
+  }
+}

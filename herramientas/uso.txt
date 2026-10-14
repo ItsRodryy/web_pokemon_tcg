@@ -10,6 +10,18 @@ python herramientas/actualizar_catalogo.py
 python herramientas/validar_catalogo.py
 
 Usa minusculas y barrabajas en nombres de archivos y carpetas.
+Tipos con el vocabulario de TCGdex en espanol: Agua, Dragon, Fuego, Hada,
+Incolora, Lucha, Metalica, Oscura, Planta, Psiquico y Rayo (con tildes).
+
+Indice de cartas del formulario (requiere internet, tarda varios minutos):
+python herramientas/actualizar_referencias.py
+python herramientas/completar_referencias.py
+referencias.json guarda el indice completo; referencias.js es la version
+reducida que carga la web. Para regenerarla sin descargar nada:
+python herramientas/actualizar_referencias.py --solo-web
+
+Pruebas simuladas (no equivalen a entrar con Google de verdad):
+ver herramientas/comprobacion/instrucciones.txt
 
 Las nuevas fotos propias se guardan completas en imagenes_cartas.
 El campo encuadre de la ficha indica el recorte que se muestra en la

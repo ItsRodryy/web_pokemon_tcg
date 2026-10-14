@@ -10,7 +10,12 @@
   if(!url.includes('jrdgqdczplvehzzyhgqx.supabase.co'))return original(input,init);
   let result;
   if(url.includes('/auth/v1/token')){result={access_token:token,refresh_token:'refresh_solo_prueba',expires_in:3600,token_type:'bearer',user};localStorage.setItem('tcg_oauth_intercambiado','si');}
-  else if(url.includes('/auth/v1/user'))result=user;
+  else if(url.includes('/auth/v1/user')){
+   if(localStorage.getItem('tcg_oauth_fallo_usuario'))return new Response(JSON.stringify({message:'Consulta del usuario temporalmente fallida',code:'unexpected_failure'}),{status:400,headers:{'Content-Type':'application/json'}});
+   result=user;
+  }
+  else if(url.includes('/auth/v1/logout')&&localStorage.getItem('tcg_oauth_fallo_red'))throw new TypeError('Failed to fetch');
+  else if(url.includes('/auth/v1/logout')&&localStorage.getItem('tcg_oauth_fallo_salida'))return new Response(JSON.stringify({message:'Servicio no disponible'}),{status:400,headers:{'Content-Type':'application/json'}});
   else if(url.includes('/rest/v1/tcg_profiles'))result=[{id:uid,username:'Nombre OAuth persistente'}];
   else if(url.includes('/rest/v1/rpc/tcg_is_admin'))result=true;
   else if(url.includes('/rest/v1/tcg_cards'))result=[];

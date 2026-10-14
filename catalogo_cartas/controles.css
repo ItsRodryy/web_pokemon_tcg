@@ -1,0 +1,39 @@
+/* Radios y controles inspirados en la guia Fluent de Vision Driver. */
+:root{--radio-control:8px;--radio-panel:12px;--radio-dialogo:16px;--superficie-control:#202020;--borde-control:#454545;--foco:#d1d1d1}
+button,input,select,textarea{font-family:inherit}
+button{transition:background-color 120ms,border-color 120ms,color 120ms}
+.primary-button,.secondary-button,.language,.text-button,.sort-control select,select,.search-box,.stack-form input:not([type=checkbox]):not([type=range]),.stack-form textarea{border-radius:var(--radio-control)}
+.primary-button,.secondary-button{padding:10px 16px}
+.account-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.text-button{padding:8px 10px}
+.controls,.empty,.crop-preview,.form-status:not(:empty),.detail-note{border-radius:var(--radio-panel)}
+dialog{border-radius:var(--radio-dialogo);box-shadow:none}
+.close-button{display:grid;place-items:center;padding:0;position:absolute;top:14px;right:14px;margin:0;float:none;width:36px;height:36px;min-height:36px;line-height:0;border-radius:var(--radio-control);background:#252525;border:1px solid transparent}
+.close-button:hover{border-color:#777;background:#333}
+.close-button svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--foco);outline-offset:3px}
+.editor-grid{gap:18px}.editor-dialog{overflow-y:auto;overflow-x:hidden}
+.combo-field{position:relative;min-width:0;display:grid;align-content:start;gap:8px}
+.combo-field>label{font-size:14px;color:#ccc}
+.combo-options{position:absolute;top:100%;left:0;right:0;margin-top:6px;z-index:5;background:#242424;border:1px solid #575757;border-radius:var(--radio-panel);max-height:260px;overflow-y:auto;padding:5px}
+.combo-option{display:block;width:100%;text-align:left;background:transparent;border:1px solid transparent;color:#eee;border-radius:var(--radio-control);padding:10px;font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+.combo-option small{display:block;color:#aaa;font-size:12px;margin-top:3px}
+.combo-option:hover,.combo-option[aria-selected=true]{background:#3a3a3a;border-color:#666}
+.combo-empty{font-size:13px;color:#bbb;padding:10px;line-height:1.6}
+.card-matches{display:grid;gap:6px;max-height:260px;overflow-y:auto;padding:8px;border:1px solid #454545;border-radius:var(--radio-panel)}
+.card-match{display:flex;gap:12px;align-items:center;text-align:left;background:#202020;color:#eee;border:1px solid transparent;border-radius:var(--radio-control);padding:10px;font-size:14px;line-height:1.5;width:100%}
+.card-match:hover{background:#303030;border-color:#666}
+.card-match img{width:38px;height:53px;object-fit:contain;flex:none}.card-match small{display:block;color:#aaa;font-size:12px}
+.selected-card{padding:13px 15px;background:#242424;border:1px solid #5d5d5d;border-radius:var(--radio-panel);font-size:14px;line-height:1.7;overflow-wrap:anywhere}
+.selected-card strong,.selected-card span{display:block}.selected-card span{color:#bbb}
+.missing-picture{position:absolute;inset:0;display:grid;place-items:center;background:#000a;pointer-events:none;overflow:hidden}
+.missing-picture:before,.missing-picture:after{content:"";position:absolute;top:50%;left:-25%;width:150%;height:18px;background:#000;transform:rotate(54deg)}
+.missing-picture:after{transform:rotate(-54deg)}
+.missing-picture span{z-index:1;background:#101010;border:1px solid #666;border-radius:8px;padding:10px 14px;color:#eee;font-size:14px;text-align:center;line-height:1.4}
+.detail-photo{position:relative;display:grid;place-items:center;width:100%}.detail-photo .missing-picture{border-radius:8px}
+.detail-photo>img{display:block}
+@media(max-width:760px){.close-button{position:absolute;float:none;top:12px;right:12px;margin:0}.account-dialog,.editor-dialog,.about-dialog{padding-top:54px}.editor-grid{gap:16px}.combo-options{max-height:220px}}
+@media(max-width:520px){.editor-grid{grid-template-columns:minmax(0,1fr)}.combo-field input{font-size:16px}.card-match{font-size:15px}.combo-option{min-height:46px}.missing-picture span{font-size:12px;padding:8px}.missing-picture:before,.missing-picture:after{height:14px}}
+.stack-form input[readonly],.stack-form select:disabled{color:#9a9a9a;background:#181818;cursor:default}
+@media(pointer:coarse){input,select,textarea,.search-box input,.sort-control select{font-size:16px}}
+@media(prefers-reduced-motion:reduce){button{transition:none}}
