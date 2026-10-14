@@ -135,7 +135,7 @@
   async function prepare(){
     if(registry.refs)return registry.refs;
     if(!registry.promise)registry.promise=new Promise((resolve,reject)=>{
-      const script=document.createElement('script');script.src=new URL('catalogo_cartas/referencias.js?v=20261014_5',location.href).href;
+      const script=document.createElement('script');script.src=new URL('catalogo_cartas/referencias.js?v=20261014_6',location.href).href;
       script.onload=()=>window.TCG_REFERENCIAS?resolve(window.TCG_REFERENCIAS):reject(Error('No se encontraron las referencias.'));script.onerror=()=>reject(Error('No se pudo cargar el índice de cartas.'));document.head.append(script);
     }).then(refs=>{
       registry.refs=refs;

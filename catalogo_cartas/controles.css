@@ -158,3 +158,8 @@ footer{flex-wrap:wrap;align-items:flex-start}
 .legal-dialog a{text-decoration:underline;text-underline-offset:3px;color:#d8d8d8}
 .legal-dialog code{background:#262626;border-radius:5px;padding:1px 5px;font-size:13px}
 @media(max-width:520px){.legal-dialog{padding:54px 20px 24px}.footer-links{gap:2px 14px}.footer-legal{font-size:11px}}
+
+/* Con una ventana abierta, la página de fondo no se desplaza (el hueco de la barra evita saltos). */
+html{scrollbar-gutter:stable}
+html:has(dialog[open]){overflow:hidden}
+dialog,.work-pane,.work-layout,.combo-options,.card-matches{overscroll-behavior:contain}

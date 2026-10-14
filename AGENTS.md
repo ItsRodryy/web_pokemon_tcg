@@ -20,7 +20,7 @@ Autoría: Adrián Rodríguez. Ninguna IA figura como autora ni firma nada.
 
 - Plataformas: Windows, navegadores de ordenador y móvil.
 - Tecnologías: HTML, CSS y JavaScript sin framework; Python 3.9 o posterior para herramientas locales.
-- Trabaja solo dentro de D:/Proyectos/web_pokemon_tcg (antes C:/Users/adria/Desktop/cartas_pokemon); no muevas ni renombres la carpeta sin que el usuario lo pida.
+- Trabaja solo dentro de D:/Proyectos/personal/web_pokemon_tcg (antes C:/Users/adria/Desktop/cartas_pokemon); no muevas ni renombres la carpeta sin que el usuario lo pida.
 - Sin precios, filtros u ordenación por precio ni herramientas de valoración.
 - Solo cartas en japonés, español y coreano. Las dudas de identificación o variante se conservan como pendientes.
 - Se conservan imagenes_cartas (japones, español, coreano, pendientes), herramientas, catalogo_cartas y catalogo_cartas.html; minúsculas y barrabajas; imágenes numeradas con nombre, edición y número.
@@ -29,7 +29,7 @@ Autoría: Adrián Rodríguez. Ninguna IA figura como autora ni firma nada.
 - El nombre junto a la Poké Ball es el username del perfil de Supabase del usuario conectado; sin sesión, rodrytela. Foto de perfil: solo los 8 avatares predefinidos. Descubrir lista a quien eligió aparecer. Nunca simular persistencia solo en el navegador.
 - Nuevas cartas: solo identidades existentes en referencias (idioma, expansión y número); autocompletado de expansiones y Pokémon, categoría y tipo desplegables, rareza de la fuente; sin variante ni motivos pendientes en el formulario. Tipos con el vocabulario de TCGdex en español.
 - Licencia MIT para el código (LICENSE y THIRD_PARTY_NOTICES); fotos propias con derechos reservados; el pie de la web cita licencias, marcas y privacidad.
-- D:/Proyectos/vision_driver solo se lee para estilo (radios de 8/12/16 px en la interfaz monocroma); no se ejecuta ni modifica nada allí.
+- D:/Proyectos/iovi/vision_driver solo se lee para estilo (radios de 8/12/16 px en la interfaz monocroma); no se ejecuta ni modifica nada allí.
 - C:/Users/adria/Desktop/credenciales_web_pokemon_tcg.md se mantiene por petición del usuario; es privado y nunca entra en Git ni en la web.
 - Intocable sin orden expresa: fotografías originales del escritorio (se pueden leer si el usuario las señala; nunca modificar, mover ni borrar); cualquier ruta fuera de este proyecto salvo las excepciones anteriores.
 

@@ -23,7 +23,7 @@ def validar():
         if not condicion:
             errores.append(mensaje)
     catalogo = {'imagenes_cartas', 'herramientas', 'catalogo_cartas', 'catalogo_cartas.html'}
-    infraestructura = {'plantilla_ai_workspace', 'ai_workspace', '.agents', '.claude', '.codex', 'AGENTS.md', 'CLAUDE.md', 'PLAN_ACTUAL.md', 'graphify-out', '.graphifyignore', 'LICENSE', 'THIRD_PARTY_NOTICES', '.git', '.gitignore', '.nojekyll', 'index.html'}
+    infraestructura = {'plantilla_ai_workspace', 'ai_workspace', '.agents', '.claude', '.codex', 'AGENTS.md', 'CLAUDE.md', 'PLAN_ACTUAL.md', 'graphify-out', '.graphifyignore', 'LICENSE', 'THIRD_PARTY_NOTICES', '.git', '.gitignore', '.nojekyll', 'index.html', 'privacidad.html'}
     presentes = {p.name for p in BASE.iterdir()}
     comprobar(catalogo <= presentes <= catalogo | infraestructura, 'Faltan archivos del catalogo o hay elementos ajenos al proyecto.')
     idiomas = {'japones', 'español', 'coreano', 'pendientes'}
@@ -37,8 +37,8 @@ def validar():
     referencias = json.loads((BASE / 'catalogo_cartas/referencias.json').read_text(encoding='utf-8'))
     comprobar((BASE / 'catalogo_cartas/referencias.js').read_text(encoding='utf-8') == texto_web(referencias), 'referencias.js no coincide con referencias.json; ejecuta actualizar_referencias.py --solo-web.')
     for numero_avatar in range(1, 9):
-        ruta_avatar = BASE / f'catalogo_cartas/avatares/a{numero_avatar}.svg'
-        comprobar(ruta_avatar.is_file() and ruta_avatar.read_text(encoding='utf-8').lstrip().startswith('<svg'), f'Falta el avatar a{numero_avatar}.svg')
+        ruta_avatar = BASE / f'catalogo_cartas/avatares/a{numero_avatar}.png'
+        comprobar(ruta_avatar.is_file() and ruta_avatar.read_bytes()[:8] == b'\x89PNG\r\n\x1a\n', f'Falta el avatar a{numero_avatar}.png')
     for archivo_legal in ('LICENSE', 'THIRD_PARTY_NOTICES'):
         comprobar((BASE / archivo_legal).is_file() and (BASE / archivo_legal).stat().st_size > 500, f'Falta {archivo_legal}')
     # Un unico vocabulario de tipos (TCGdex en espanol) evita opciones repetidas en el filtro.

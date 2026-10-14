@@ -2,8 +2,9 @@
 
 Actualizado el 14 de octubre de 2026.
 
-## Hecho (en local; publicado solo hasta el commit 1faef40)
+## Hecho (publicado en el commit 86ec468)
 
+- Proyecto copiado a D:\Proyectos\personal\web_pokemon_tcg (copia verificada: mismo commit y mismos archivos). La carpeta antigua del Escritorio la borra el usuario.
 - Las 6 fotos propias sin escaneo (c089, c095, c096, c100, c101, c111) pierden la cruz y quedan protegidas: 21 fotos propias en total. Esquinas redondeadas en todos los escaneos.
 - Vista de 3 columnas en móvil y selector Cuadrícula/Lista (una carta ancha por fila), recordado en el navegador.
 - Editar abre el editor a la derecha del detalle (apilado en pantallas estrechas); X, Esc y clic fuera avisan de cambios sin guardar («Seguir editando · Descartar cambios · Guardar»), también en Tu cuenta.
@@ -20,15 +21,21 @@ Actualizado el 14 de octubre de 2026.
 - Capturas revisadas en escritorio y a 390 px.
 - No verificado: nada con cuentas Google reales ni contra el Supabase real.
 
+## Sin publicar (14/10/2026, tarde)
+
+- SQL v2 aplicado en Supabase (Descubrir responde) y app de Google publicada en producción; el usuario confirma que entrar y Descubrir funcionan.
+- Avatares nuevos: seis iconos de línea del usuario pasados a blanco y dos propios (Jigglypuff, Ditto), en PNG; los SVG anteriores, retirados.
+- Con una ventana abierta, la página de fondo ya no se desplaza (comprobado a 1440 y 390 px).
+- Caché v=20261014_6. Validador, sintaxis y probar_interfaz correctos.
+
 ## Pendiente
 
-- Publicar (permiso expreso por operación) y comprobar Pages.
-- El usuario aplica configurar_supabase_v2.sql en Supabase y publica la app en Google Cloud (Google Auth Platform › Audience › Publish app) para abrirla a cualquiera.
-- Comprobación real con dos cuentas: entrar, avatar, añadir cartas, Descubrir, ocultarse, cerrar sesión, «Sincronizar las 177 cartas».
-- Mover la carpeta a D:\Proyectos\web_pokemon_tcg y actualizar rutas (al final; reabrir la sesión allí).
+- Autor y licencia de los iconos a1–a6 (THIRD_PARTY_NOTICES dice «PENDIENTE»); nombres de a5 y a6.
+- privacidad.html: el enlace de privacidad dado a Google aún da 404.
+- Commit y push de todo lo anterior y del cambio de rutas (requiere permiso).
 - Daldagury es un servicio de aficionados: conviene pedirles permiso para el uso de su índice e imágenes (contact@daldagury.com).
 - Graphify y comprobación de hooks, aplazados por el usuario.
 
 ## Siguiente paso
 
-Pedir permiso de publicación; guiar al usuario con el SQL y Google; mover la carpeta.
+El usuario indica la fuente de los iconos y da permiso; se crea privacidad.html y se publica todo.

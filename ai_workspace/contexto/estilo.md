@@ -20,7 +20,7 @@ Segoe UI Variable Text, Segoe UI y Arial como alternativas locales. Estilo limpi
 
 ## Medidas, márgenes y radios
 
-Contenedor de hasta 1536 px, márgenes de 48 px en escritorio y 17 px en móvil. Inspiración: guía Fluent de D:/Proyectos/vision_driver, consultada solo en lectura. Radios de 8 px para controles, 12 px para paneles y menús y 16 px para diálogos. Interfaz plana sin sombras; X centrada con SVG. Separación de 18 px en formularios. Mantener la paleta monocroma del catálogo.
+Contenedor de hasta 1536 px, márgenes de 48 px en escritorio y 17 px en móvil. Inspiración: guía Fluent de D:/Proyectos/iovi/vision_driver, consultada solo en lectura. Radios de 8 px para controles, 12 px para paneles y menús y 16 px para diálogos. Interfaz plana sin sombras; X centrada con SVG. Separación de 18 px en formularios. Mantener la paleta monocroma del catálogo.
 
 ## Controles
 
@@ -32,7 +32,7 @@ Cinco cartas por fila en ordenador y tres en móvil (menos columnas al estrechar
 
 Formulario privado con búsqueda de expansión por código o nombre, autocomplete de Pokémon y nombres reales de las cartas de la expansión, número manual contrastado con la referencia elegida y desplegables de categoría y tipo. Cantidad, foto y notas editables; al actualizar una ficha existente, su identidad se muestra atenuada y no se edita. Rareza automática cuando la fuente la indica; variante y motivos pendientes no se piden. Mostrar «Cerrar sesión» en la cabecera cuando haya sesión, incluso si no se puede validar el acceso al servicio.
 
-Editar una carta abre el editor a la derecha del detalle (apilado en pantallas estrechas). Cerrar con X, Esc o clic fuera con cambios sin guardar muestra una barra «Seguir editando · Descartar cambios · Guardar»; lo mismo en Tu cuenta. Tu cuenta incluye ocho avatares redondos minimalistas en grises, la casilla «Aparecer en Descubrir» y «Borrar mis datos» con doble pulsación. Descubrir es una lista de personas (avatar, nombre y número de cartas); una colección ajena muestra una barra de contexto con «Volver». El pie de página enlaza Sobre los datos, Licencias y créditos y Privacidad.
+Con cualquier ventana abierta, la página de fondo no se desplaza. Editar una carta abre el editor a la derecha del detalle (apilado en pantallas estrechas). Cerrar con X, Esc o clic fuera con cambios sin guardar muestra una barra «Seguir editando · Descartar cambios · Guardar»; lo mismo en Tu cuenta. Tu cuenta incluye ocho avatares de línea blanca sobre fondo oscuro, la casilla «Aparecer en Descubrir» y «Borrar mis datos» con doble pulsación. Descubrir es una lista de personas (avatar, nombre y número de cartas); una colección ajena muestra una barra de contexto con «Volver». El pie de página enlaza Sobre los datos, Licencias y créditos y Privacidad.
 
 ## Errores que evitar
 

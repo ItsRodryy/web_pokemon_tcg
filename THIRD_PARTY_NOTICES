@@ -88,7 +88,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    cartas pertenecen a sus titulares.
 
 ---------------------------------------------------------------------------
-5. Marcas
+5. Avatares (catalogo_cartas/avatares)
+   a1 a a6: iconos creados por IconBaandar - Flaticon
+   (https://www.flaticon.com/authors/iconbaandar), usados con la licencia
+   gratuita de Flaticon, que exige esta atribución. Se han pasado a blanco
+   sobre fondo transparente y reducido a 256 px.
+   a7 y a8 son dibujos del proyecto en el mismo estilo.
+
+---------------------------------------------------------------------------
+6. Marcas
    Pokémon y los nombres de Pokémon son marcas de Nintendo. Pokémon Trading
    Card Game, sus cartas, imágenes y textos son propiedad de Nintendo,
    Creatures Inc., GAME FREAK inc. y The Pokémon Company. Este proyecto no está

@@ -4,7 +4,7 @@
 
 ## Objetivo
 
-Mejorar la web y abrirla a más usuarios sin subidas de contenido ajeno: filas de 3 cartas en móvil y vista de lista, edición junto al detalle con aviso de cambios, cierre de sesión que nunca se atasca, avatares predefinidos, «Descubrir» con colecciones de otros usuarios, esquinas redondeadas en escaneos, licencia y créditos, y mover el proyecto a `D:\Proyectos\web_pokemon_tcg`.
+Mejorar la web y abrirla a más usuarios sin subidas de contenido ajeno: filas de 3 cartas en móvil y vista de lista, edición junto al detalle con aviso de cambios, cierre de sesión que nunca se atasca, avatares predefinidos, «Descubrir» con colecciones de otros usuarios, esquinas redondeadas en escaneos, licencia y créditos, y mover el proyecto a `D:\Proyectos\personal\web_pokemon_tcg`.
 
 ## Decisiones confirmadas (usuario, 14/10/2026)
 
@@ -45,8 +45,8 @@ catalogo_cartas.html; catalogo.css y controles.css; catalogo.js (`thumbnail`, `r
 7. [HECHO] Descubrir: botón en la cabecera, lista con avatar, nombre y nº de cartas, vista de solo lectura de otra colección, «Mi colección», interruptor de visibilidad, ocultar (administrador) y «Borrar mis datos». Formulario simplificado para usuarios (solo cantidad).
 8. [HECHO] LICENSE MIT, THIRD_PARTY_NOTICES, pie de página con créditos, marcas y aviso de privacidad. Verificar la licencia real de cada fuente (TCGdex, PokeAPI, Daldagury, supabase-js) antes de citarla.
 9. [HECHO] Verificación completa y capturas móvil y PC; actualizar AGENTS.md, ESTADO y CHANGELOG (edición abierta a usuarios, 21 fotos propias, sin subidas).
-10. [ ] Publicar solo tras tu permiso y tras ejecutar tú el SQL; después comprobar Pages y la web real.
-11. [ ] Mover la carpeta a `D:\Proyectos\web_pokemon_tcg` copiando y verificando antes de borrar el origen; actualizar rutas del proyecto; reabrir la sesión allí.
+10. [HECHO] Publicado con permiso (commit 86ec468); Pages sirve v=20261014_5 y la web real funciona sin errores (Descubrir oculto hasta aplicar el SQL v2).
+11. [HECHO] Copiado a D:\Proyectos\personal\web_pokemon_tcg y verificado (mismo commit y archivos); rutas actualizadas. La carpeta antigua la borra el usuario.
 
 ## Pruebas y aceptación
 

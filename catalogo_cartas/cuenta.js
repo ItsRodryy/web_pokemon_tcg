@@ -8,8 +8,8 @@
   const state = {client:null, user:null, profile:null, isAdmin:false, adminError:'', v2:true, busy:false, authVersion:0, signingIn:false, signingOut:false, newProfile:false, closeAfterSave:false};
   const authStorageKey = config.supabaseUrl ? 'sb-' + new URL(config.supabaseUrl).hostname.split('.')[0] + '-auth-token' : '';
   const oauthReturn = new URL(location.href).searchParams.has('code') || location.hash.includes('error=');
-  const AVATARS = [['a1','Pikachu'],['a2','Charmander'],['a3','Bulbasaur'],['a4','Squirtle'],['a5','Eevee'],['a6','Gengar'],['a7','Mewtwo'],['a8','Snorlax']]
-    .map(([id, nombre]) => ({id, nombre, src:`catalogo_cartas/avatares/${id}.svg`}));
+  const AVATARS = [1, 2, 3, 4, 5, 6, 7, 8]
+    .map(n => ({id:'a' + n, nombre:'Avatar ' + n, src:`catalogo_cartas/avatares/a${n}.png`}));
   const message = (id, text, error = false) => { const el = $(id); el.textContent = text; el.dataset.error = String(error); };
   const status = text => { $('connection-status').hidden = !text; $('connection-status').textContent = text || ''; };
   const errorText = e => e?.code === '23505' ? 'Esta carta ya existe. Selecciónala arriba para actualizar su cantidad o su foto.' : e?.message || 'No se pudo completar. Inténtalo de nuevo.';
@@ -125,7 +125,7 @@
     for (const avatar of AVATARS) {
       const button = document.createElement('button');
       button.type = 'button'; button.className = 'avatar-option'; button.setAttribute('role', 'radio'); button.dataset.avatar = avatar.id;
-      button.setAttribute('aria-checked', String(avatar.id === chosenAvatar)); button.title = avatar.nombre; button.setAttribute('aria-label', avatar.nombre);
+      button.setAttribute('aria-checked', String(avatar.id === chosenAvatar)); button.setAttribute('aria-label', avatar.nombre);
       const img = document.createElement('img'); img.src = avatar.src; img.alt = ''; button.append(img);
       button.addEventListener('click', () => { chosenAvatar = avatar.id; renderAvatars(); });
       box.append(button);

@@ -42,9 +42,9 @@ async function run(url){
    document.querySelector('#avatar-options [data-avatar="a5"]').click();document.getElementById('username').value='Mi nombre guardado';document.getElementById('profile-form').requestSubmit();
   })()`);
   await wait('document.getElementById("brand-name").textContent==="Mi nombre guardado"');
-  await wait('document.querySelector("#account-button img")?.getAttribute("src").endsWith("a5.svg")');
+  await wait('document.querySelector("#account-button img")?.getAttribute("src").endsWith("a5.png")');
   await cmd('Page.reload',{},sid);await wait('document.getElementById("brand-name").textContent==="Mi nombre guardado"');
-  await wait('document.querySelector("#account-button img")?.getAttribute("src").endsWith("a5.svg")');
+  await wait('document.querySelector("#account-button img")?.getAttribute("src").endsWith("a5.png")');
   await evalJS(`(async()=>{await tcgAccount.openEditor('c165');if(!document.getElementById('card-category').disabled||!document.getElementById('card-type').disabled)throw Error('Identidad editable en ficha existente');document.getElementById('card-form').elements.cantidad.value=2;document.getElementById('card-form').requestSubmit();})()`);
   await wait('!document.getElementById("detail-dialog").open');
   // Detalle y editor lado a lado; aviso al salir con cambios (X, Esc y clic fuera).
