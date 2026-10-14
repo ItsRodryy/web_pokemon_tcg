@@ -1,6 +1,6 @@
 # Revisión integral y finalización de web_pokemon_tcg
 
-> **Estado:** EN CURSO
+> **Estado:** COMPLETADO
 
 Revisión independiente de Claude (14 de octubre de 2026) sobre todo el trabajo de Codex. La orden del usuario autoriza planificar y ejecutar los cambios locales; Git/GitHub siguen en solo lectura y cada escritura requiere permiso concreto.
 
@@ -39,11 +39,11 @@ Dejar el catálogo local coherente, verificado y listo para publicar: datos sin 
 7. [HECHO] Herramientas: índice web compacto regenerable sin descargas, completar_referencias idempotente, validación de vocabulario de tipos y .graphifyignore.
 8. [HECHO] Pruebas: ampliar probar_interfaz (filtros sin duplicados, salida con operación en curso, etiquetas) y ejecutar las tres suites, validación, sintaxis y capturas de escritorio y móvil.
 9. [HECHO] Documentación y cierre: ESTADO, arquitectura, estilo, CHANGELOG, traspaso consumido, Graphify actualizado.
-10. [ ] Publicación: preparar resumen del cambio y pedir permiso para cada operación Git/GitHub. No se ejecuta sin autorización.
+10. [HECHO] Publicación: con permiso expreso (stage, commit f326fe3 y push), Pages sirve v=20261014_4 y la web anónima carga sin errores.
 
 ## Resultado de la ejecución
 
-Bloques 1–9 hechos y verificados el 14/10/2026 (detalle en ai_workspace/ESTADO.md). Queda el bloque 10, que depende de permisos del usuario, y la comprobación con su cuenta real. El plan no se archiva hasta entonces.
+Bloques 1–10 hechos y verificados el 14/10/2026 (detalle en ai_workspace/ESTADO.md). Fuera del plan queda la comprobación con la cuenta Google real, que solo puede hacer el usuario.
 
 ## Pruebas y aceptación
 
