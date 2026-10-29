@@ -23,7 +23,7 @@ def validar():
         if not condicion:
             errores.append(mensaje)
     catalogo = {'imagenes_cartas', 'herramientas', 'catalogo_cartas', 'catalogo_cartas.html'}
-    infraestructura = {'plantilla_ai_workspace', 'ai_workspace', '.agents', '.claude', '.codex', 'AGENTS.md', 'CLAUDE.md', 'PLAN_ACTUAL.md', 'graphify-out', '.graphifyignore', 'LICENSE', 'THIRD_PARTY_NOTICES', '.git', '.gitignore', '.nojekyll', 'index.html', 'privacidad.html'}
+    infraestructura = {'plantilla_ai_workspace', 'ai_workspace', '.agents', '.claude', '.codex', 'AGENTS.md', 'CLAUDE.md', 'PLAN_ACTUAL.md', 'graphify-out', '.graphifyignore', 'LICENSE', 'THIRD_PARTY_NOTICES', '.git', '.github', '.gitignore', '.nojekyll', 'index.html', 'privacidad.html'}
     presentes = {p.name for p in BASE.iterdir()}
     comprobar(catalogo <= presentes <= catalogo | infraestructura, 'Faltan archivos del catalogo o hay elementos ajenos al proyecto.')
     idiomas = {'japones', 'español', 'coreano', 'pendientes'}
