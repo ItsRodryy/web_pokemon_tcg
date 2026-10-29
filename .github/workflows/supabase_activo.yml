@@ -1,0 +1,24 @@
+name: Supabase activo
+
+# El plan gratuito de Supabase pausa el proyecto tras unos días sin uso.
+# Una consulta pública cada 3 días lo mantiene activo. La clave es la publicable
+# que ya usa la web (catalogo_cartas/cuenta.js), no una clave secreta.
+on:
+  schedule:
+    - cron: "17 6 */3 * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  consultar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Consultar tcg_cards
+        env:
+          CLAVE: sb_publishable_13qQ0J5zohDCBt9g19EmYQ_vWKcIsAi
+          URL: https://jrdgqdczplvehzzyhgqx.supabase.co/rest/v1/tcg_cards?select=id&limit=1
+        run: |
+          codigo=$(curl -s -o /dev/null -w "%{http_code}" -H "apikey: $CLAVE" "$URL")
+          echo "Respuesta: $codigo"
+          test "$codigo" = "200"
