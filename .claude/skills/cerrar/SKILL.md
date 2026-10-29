@@ -9,7 +9,9 @@ Si el usuario solo pausa o cambia de agente, salta los pasos 1 y 6.
    cierres: deja el plan `EN CURSO` o `BLOQUEADO` e informa del fallo.
 2. Si cambió código y Graphify está activo: `graphify update .`
 3. Sustituye `ai_workspace/ESTADO.md` (no añadas al final): qué se hizo, qué se verificó con sus
-   resultados, qué queda y el siguiente paso.
+   resultados, qué queda y el siguiente paso. Pon al día `ai_workspace/progreso.md` (secciones de
+   la orden `progreso`) y añade la fila de la tarea a `ai_workspace/registro_trabajo.md`, con las
+   horas «por confirmar».
 4. En `ai_workspace/archivo/CHANGELOG.md`, una línea arriba por hito que explique una decisión o una
    regresión. Nada más.
 5. Mide: `powershell -NoProfile -File ai_workspace/tools/planes.ps1 -Accion Medir`
