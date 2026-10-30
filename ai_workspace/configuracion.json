@@ -1,6 +1,6 @@
 {
     "schema_version":  2,
-    "template_version":  "2.3.0",
+    "template_version":  "2.4.0",
     "proyecto":  {
                      "nombre":  "web_pokemon_tcg",
                      "descripcion":  "Catálogo de la colección Pokémon TCG de Adrián Rodríguez: agrupa las copias por carta, idioma, edición y variante, con búsqueda, filtros, fotografías y datos. Publicado en GitHub Pages con edición privada desde el móvil (Google y Supabase).",
@@ -71,6 +71,9 @@
                                                              "leer_si":  "crear o cambiar interfaz"
                                                          }
                  },
+    "contenido_propio":  [
+
+                         ],
     "extra":  "",
     "exclusiones_backup":  [
                                "graphify-out",
